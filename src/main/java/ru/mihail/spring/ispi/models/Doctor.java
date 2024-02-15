@@ -1,72 +1,63 @@
 package ru.mihail.spring.ispi.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+
 
 @Entity
+@Table(name = "doctor")
 public class Doctor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private Users user;
 
-    @Column(nullable = false)
+
+    @NotEmpty(message="Поле 'Имя' не может быть пустым")
+    @Size(min=2, max=30, message = "Имя должно содержать от 2 до 30 символов")
+    @Column(name = "first_name")
     private String firstName;
 
-    @Column(nullable = false)
+
+    @NotEmpty(message="Поле 'Фамилия' не может быть пустым")
+    @Size(min=2, max=30, message = "Имя должно содержать от 2 до 30 символов")
+    @Column(name = "last_name")
     private String lastName;
 
     @ManyToOne
     @JoinColumn(name = "specialty_id")
     private Specialty specialty;
 
+    @NotEmpty(message="Поле 'должность' не может быть пустым")
+    @Size(min=2, max=50, message = "Должность должна содержать от 2 до 50 символов")
+    @Column(name = "position")
     private String position;
-
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Users getUser() {
-        return user;
     }
 
     public void setUser(Users user) {
         this.user = user;
     }
 
-    public Specialty getSpecialty() {
-        return specialty;
-    }
-
     public void setSpecialty(Specialty specialty) {
         this.specialty = specialty;
-    }
-
-    public String getPosition() {
-        return position;
     }
 
     public void setPosition(String position) {

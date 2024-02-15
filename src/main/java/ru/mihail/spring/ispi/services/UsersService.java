@@ -14,7 +14,7 @@ public class UsersService {
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    //Метод для создания человека
+    //Метод для создания пациента
     @Transactional
     public void save(Users users) {
         users.setPassword(passwordEncoder.encode(users.getPassword()));
