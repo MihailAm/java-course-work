@@ -3,7 +3,8 @@ package ru.mihail.spring.ispi.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import ru.mihail.spring.ispi.models.MedicalReport;
+import ru.mihail.spring.ispi.services.MedicalReportService;
 import java.util.List;
 
 @RestController
