@@ -15,7 +15,7 @@ public class MedicalReportController {
     private MedicalReportService medicalReportService; // Предположим, что у вас есть сервис для работы с медицинскими заключениями
 
     // Получение списка всех медицинских заключений
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<MedicalReport>> getAllMedicalReports() {
         List<MedicalReport> medicalReports = medicalReportService.getAllMedicalReports();
         return ResponseEntity.ok(medicalReports);
@@ -33,14 +33,14 @@ public class MedicalReportController {
     }
 
     // Добавление нового медицинского заключения
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<MedicalReport> createMedicalReport(@RequestBody MedicalReport medicalReport) {
         MedicalReport createdMedicalReport = medicalReportService.createMedicalReport(medicalReport);
         return ResponseEntity.ok(createdMedicalReport);
     }
 
     // Редактирование информации о медицинском заключении
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<MedicalReport> updateMedicalReport(@PathVariable Long id, @RequestBody MedicalReport updatedMedicalReport) {
         MedicalReport medicalReport = medicalReportService.updateMedicalReport(id, updatedMedicalReport);
         if (medicalReport != null) {
@@ -51,7 +51,7 @@ public class MedicalReportController {
     }
 
     // Удаление медицинского заключения
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteMedicalReport(@PathVariable Long id) {
         boolean deleted = medicalReportService.deleteMedicalReport(id);
         if (deleted) {
