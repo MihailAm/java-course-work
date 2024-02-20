@@ -11,7 +11,7 @@ import java.util.Optional;
 public class MedicalReportService {
 
     /*
-    СОЗДАТЬ РЕПОЗИТОРИЙ
+    Create REP
     @Autowired
     private MedicalReportRepository medicalReportRepository;
     */
