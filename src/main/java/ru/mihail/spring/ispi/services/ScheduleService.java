@@ -2,6 +2,9 @@ package ru.mihail.spring.ispi.services;
 
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Schedule;
+import ru.mihail.spring.ispi.models.Admission;
+
+import java.util.List;
 
 @Service
 public class ScheduleService {

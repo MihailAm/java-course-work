@@ -12,7 +12,7 @@ public class PatientService {
     /*
     Create REP
     @Autowired
-    private PatientRepository patientRepository; // Предположим, что у вас есть репозиторий для работы с пациентами
+    private PatientRepository patientRepository;
     */
     public List<Patient> getAllPatients() {
         //return patientRepository.findAll();

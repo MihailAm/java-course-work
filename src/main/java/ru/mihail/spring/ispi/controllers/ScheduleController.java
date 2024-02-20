@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.models.Schedule;
 import jakarta.validation.Valid;
 import ru.mihail.spring.ispi.services.ScheduleService;
+import ru.mihail.spring.ispi.models.Admission;
 
 import java.util.List;
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class PatientController {
 
     @Autowired
-    private PatientService patientService; // Предположим, что у вас есть сервис для работы с пациентами
+    private PatientService patientService;
 
     // Создание нового пациента
     @PostMapping("/create")

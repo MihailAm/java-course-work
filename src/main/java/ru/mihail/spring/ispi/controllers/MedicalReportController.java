@@ -12,7 +12,7 @@ import java.util.List;
 public class MedicalReportController {
 
     @Autowired
-    private MedicalReportService medicalReportService; // Предположим, что у вас есть сервис для работы с медицинскими заключениями
+    private MedicalReportService medicalReportService;
 
     // Получение списка всех медицинских заключений
     @GetMapping("/all")
