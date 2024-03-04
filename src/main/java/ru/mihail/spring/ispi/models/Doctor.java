@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity
 @Table(name = "doctor")
+@Getter
+@Setter
 public class Doctor {
 
     @Id
@@ -40,27 +43,5 @@ public class Doctor {
     @Column(name = "position")
     private String position;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public void setSpecialty(Specialty specialty) {
-        this.specialty = specialty;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
 }

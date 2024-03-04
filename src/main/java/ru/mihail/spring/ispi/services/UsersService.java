@@ -15,10 +15,16 @@ public class UsersService {
     private PasswordEncoder passwordEncoder;
 
     //Метод для создания пациента
-    @Transactional
+
     public void save(Users users) {
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         users.setRole("ROLE_PATIENT");
+        userRepository.save(users);
+    }
+
+    public void saveDoctor(Users users) {
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setRole("ROLE_DOCTOR");
         userRepository.save(users);
     }
 }

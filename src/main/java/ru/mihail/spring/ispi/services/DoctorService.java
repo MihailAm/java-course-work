@@ -2,8 +2,11 @@ package ru.mihail.spring.ispi.services;
 
 
 import ch.qos.logback.core.testUtil.MockInitialContext;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Doctor;
+import ru.mihail.spring.ispi.repositories.DoctorRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +14,12 @@ import java.util.List;
 @Service
 public class DoctorService {
 
-    // Заглушка для создания нового врача
-    public Doctor createDoctor(Doctor doctor) {
-        // Реальная логика создания врача может быть добавлена здесь
-        // Возвращаем заглушечный объект Doctor
-        return new Doctor();
+    @Autowired
+    private DoctorRepository doctorRepository;
+
+    @Transactional
+    public void save(Doctor doctor) {
+        doctorRepository.save(doctor);
     }
 
     // Заглушка для получения врача по его идентификатору (id)

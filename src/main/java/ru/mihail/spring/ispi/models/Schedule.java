@@ -3,10 +3,15 @@ package ru.mihail.spring.ispi.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
 @Entity
 @Table(name = "schedule")
+@Getter
+@Setter
 public class Schedule {
 
     @Id
@@ -18,7 +23,7 @@ public class Schedule {
     @NotBlank(message = "Дата не может быть пустой")
     private String date;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Admission> admissions;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -26,37 +31,4 @@ public class Schedule {
     @NotNull(message = "Идентификатор врача не может быть пустым")
     private Doctor doctor;
 
-    // Геттеры и сеттеры
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public List<Admission> getAdmissions() {
-        return admissions;
-    }
-
-    public void setAdmissions(List<Admission> admissions) {
-        this.admissions = admissions;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
 }

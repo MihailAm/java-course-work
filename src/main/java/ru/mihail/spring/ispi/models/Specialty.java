@@ -3,9 +3,13 @@ package ru.mihail.spring.ispi.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "specialty")
+@Getter
+@Setter
 public class Specialty {
 
     @Id
@@ -19,23 +23,4 @@ public class Specialty {
     @Column(name = "name")
     private String name;
 
-    // Геттер для id
-    public Long getId() {
-        return id;
-    }
-
-    // Сеттер для id
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    // Геттер для name
-    public String getName() {
-        return name;
-    }
-
-    // Сеттер для name
-    public void setName(String name) {
-        this.name = name;
-    }
 }
