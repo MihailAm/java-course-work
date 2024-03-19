@@ -31,7 +31,7 @@ public class SpecialtyController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Specialty> getSpecialtyById(@PathVariable Long id) {
-        Specialty specialty = specialtyService.getSpecialtyById(id);
+        Specialty specialty = specialtyService.findById(id);
         if (specialty != null) {
             return new ResponseEntity<>(specialty, HttpStatus.OK);
         } else {
