@@ -16,7 +16,7 @@ public class UsersService {
 
     //Метод для создания пациента
 
-    public void save(Users users) {
+    public void savePatient(Users users) {
         users.setPassword(passwordEncoder.encode(users.getPassword()));
         users.setRole("ROLE_PATIENT");
         userRepository.save(users);
