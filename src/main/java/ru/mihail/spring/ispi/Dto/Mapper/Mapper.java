@@ -4,13 +4,7 @@ package ru.mihail.spring.ispi.Dto.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.mihail.spring.ispi.Dto.DoctorAuthDTO;
-import ru.mihail.spring.ispi.Dto.DoctorDTO;
-import ru.mihail.spring.ispi.Dto.ScheduleDTO;
-import ru.mihail.spring.ispi.Dto.SpecialtyDTO;
-import ru.mihail.spring.ispi.Dto.MedicalServiceDTO;
-import ru.mihail.spring.ispi.Dto.MedicalReportDTO;
-import ru.mihail.spring.ispi.Dto.AdmissionDTO;
+import ru.mihail.spring.ispi.Dto.*;
 import ru.mihail.spring.ispi.models.*;
 import ru.mihail.spring.ispi.services.SpecialtyService;
 
@@ -24,21 +18,38 @@ public class Mapper {
     @Autowired
     private SpecialtyService specialtyService;
 
-    public Users toUsersEntity(DoctorAuthDTO doctorRequest) {
+    public Users DoctorToUsersEntity(DoctorAuthDTO doctorRequest) {
         Users user = new Users();
         user.setEmail(doctorRequest.getEmail());
         user.setPassword(doctorRequest.getPassword());
         return user;
     }
 
-    public Doctor toDoctorEntity(DoctorAuthDTO doctorRequest) {
+    public Doctor DoctorToDoctorEntity(DoctorAuthDTO doctorRequest, Users user) {
         Doctor doctor = new Doctor();
-        doctor.setUser(toUsersEntity(doctorRequest));
+        doctor.setUser(user);
         doctor.setFirstName(doctorRequest.getFirstName());
         doctor.setLastName(doctorRequest.getLastName());
         doctor.setPosition(doctorRequest.getPosition());
         Specialty specialty = specialtyService.findById(doctorRequest.getSpecialtyId());
         doctor.setSpecialty(specialty);
         return doctor;
+    }
+    public Users PatientToUsersEntity(PatientAuthDTO patientRequest) {
+        Users user = new Users();
+        user.setEmail(patientRequest.getEmail());
+        user.setPassword(patientRequest.getPassword());
+        return user;
+    }
+
+    public Patient PatientToPatientEntity(PatientAuthDTO patientRequest, Users user) {
+        Patient patient = new Patient();
+        patient.setUser(user);
+        patient.setFirstName(patientRequest.getFirstName());
+        patient.setLastName(patientRequest.getLastName());
+        patient.setAge(patientRequest.getAge());
+        patient.setPhoneNumber(patientRequest.getPhoneNumber());
+        patient.setSnils(patientRequest.getSnils());
+        return patient;
     }
 }
