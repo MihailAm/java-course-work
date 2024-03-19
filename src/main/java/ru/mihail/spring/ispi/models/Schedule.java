@@ -5,8 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "schedule")
@@ -23,12 +23,12 @@ public class Schedule {
     @NotBlank(message = "Дата не может быть пустой")
     private String date;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
-    private List<Admission> admissions;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
     @NotNull(message = "Идентификатор врача не может быть пустым")
     private Doctor doctor;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
+    private List<Admission> admissions;
 
 }
