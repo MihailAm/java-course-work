@@ -1,19 +1,27 @@
 package ru.mihail.spring.ispi.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mihail.spring.ispi.models.Doctor;
 import ru.mihail.spring.ispi.models.Patient;
+import ru.mihail.spring.ispi.repositories.PatientRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class PatientService {
-    /*
-    Create REP
+
+
     @Autowired
     private PatientRepository patientRepository;
-    */
+
+    @Transactional
+    public void save(Patient patient) {
+        patientRepository.save(patient);
+    }
+
     public List<Patient> getAllPatients() {
         //return patientRepository.findAll();
         return null; //tmp
