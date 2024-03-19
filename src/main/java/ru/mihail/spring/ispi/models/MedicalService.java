@@ -16,11 +16,6 @@ public class MedicalService {
     @Column(name = "name")
     private String name;
 
-    @NotEmpty(message = "Поле 'Описание' не может быть пустым")
-    @Lob
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "price")
     @PositiveOrZero(message = "Цена не может быть отрицательной")
     private Double price;
@@ -43,14 +38,6 @@ public class MedicalService {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public Double getPrice() {
         return price;
     }
@@ -59,4 +46,3 @@ public class MedicalService {
         this.price = price;
     }
 }
-

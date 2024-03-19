@@ -21,18 +21,11 @@ public class MedicalReport {
     private Doctor doctor;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "report_date")
-    private Date reportDate;
+    @Column(name = "admission")
+    private Date admission;
 
-    @Lob
-    @Column(name = "diagnosis")
-    private String diagnosis;
-
-    @Lob
-    @Column(name = "prescription")
-    private String prescription;
-
-    // Дополнительные поля, например, результаты анализов, рекомендации и т.д.
+    @Column(name = "report", columnDefinition = "TEXT")
+    private String report;
 
     public Long getId() {
         return id;
@@ -58,27 +51,19 @@ public class MedicalReport {
         this.doctor = doctor;
     }
 
-    public Date getReportDate() {
-        return reportDate;
+    public Date getAdmission() {
+        return admission;
     }
 
-    public void setReportDate(Date reportDate) {
-        this.reportDate = reportDate;
+    public void setAdmission(Date admission) {
+        this.admission = admission;
     }
 
-    public String getDiagnosis() {
-        return diagnosis;
+    public String getReport() {
+        return report;
     }
 
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
-
-    public String getPrescription() {
-        return prescription;
-    }
-
-    public void setPrescription(String prescription) {
-        this.prescription = prescription;
+    public void setReport(String report) {
+        this.report = report;
     }
 }

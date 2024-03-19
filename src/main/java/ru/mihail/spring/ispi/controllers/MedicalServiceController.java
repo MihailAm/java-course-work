@@ -14,7 +14,7 @@ import java.util.List;
 public class MedicalServiceController {
 
     @Autowired
-    private MedicalServiceService medicalServiceService; // Предположим, что у вас есть сервис для работы с медицинскими услугами
+    private MedicalServiceService medicalServiceService;
 
     // Получение списка всех медицинских услуг
     @GetMapping("/all")

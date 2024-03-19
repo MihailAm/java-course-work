@@ -20,13 +20,19 @@ public class Admission {
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "admission_datetime")
-    private Date admissionDatetime;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "date")
+    private Date date;
 
-    @Lob
-    @Column(name = "description")
-    private String description;
+    @Temporal(TemporalType.TIME)
+    @Column(name = "time")
+    private Date time;
+
+    @Column(name = "office")
+    private String office;
+
+    @Column(name = "service_id")
+    private Long serviceId;
 
     public Long getId() {
         return id;
@@ -52,20 +58,35 @@ public class Admission {
         this.patient = patient;
     }
 
-    public Date getAdmissionDatetime() {
-        return admissionDatetime;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAdmissionDatetime(Date admissionDatetime) {
-        this.admissionDatetime = admissionDatetime;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public String getDescription() {
-        return description;
+    public Date getTime() {
+        return time;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
+    public String getOffice() {
+        return office;
+    }
+
+    public void setOffice(String office) {
+        this.office = office;
+    }
+
+    public Long getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Long serviceId) {
+        this.serviceId = serviceId;
     }
 }
-
