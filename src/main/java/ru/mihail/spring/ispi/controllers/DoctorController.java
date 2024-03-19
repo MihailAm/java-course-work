@@ -63,15 +63,7 @@ public class DoctorController {
 //
 //        return new ResponseEntity<>("Doctor registered successfully", HttpStatus.CREATED);
 //    }
-    @Transactional
-    @PostMapping("/register-doctor")
-    public ResponseEntity<String> registerDoctor(@RequestBody DoctorAuthDTO doctorRequest) {
-        Users user = Mapper.toUsersEntity(doctorRequest);
-        Doctor doctor = Mapper.toDoctorEntity(doctorRequest);
-        usersService.saveDoctor(user);
-        doctorService.save(doctor);
-        return new ResponseEntity<>("Doctor registered successfully", HttpStatus.CREATED);
-    }
+
 
 
     // Получение врача по его идентификатору (id)
