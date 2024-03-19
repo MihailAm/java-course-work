@@ -1,10 +1,15 @@
 package ru.mihail.spring.ispi.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
 @Entity
 @Table(name = "medical_report")
+@Getter
+@Setter
 public class MedicalReport {
 
     @Id
@@ -26,44 +31,5 @@ public class MedicalReport {
 
     @Column(name = "report", columnDefinition = "TEXT")
     private String report;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public Date getAdmission() {
-        return admission;
-    }
-
-    public void setAdmission(Date admission) {
-        this.admission = admission;
-    }
-
-    public String getReport() {
-        return report;
-    }
-
-    public void setReport(String report) {
-        this.report = report;
-    }
+    
 }

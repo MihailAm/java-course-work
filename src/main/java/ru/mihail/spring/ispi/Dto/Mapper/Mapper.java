@@ -8,6 +8,9 @@ import ru.mihail.spring.ispi.Dto.DoctorAuthDTO;
 import ru.mihail.spring.ispi.Dto.DoctorDTO;
 import ru.mihail.spring.ispi.Dto.ScheduleDTO;
 import ru.mihail.spring.ispi.Dto.SpecialtyDTO;
+import ru.mihail.spring.ispi.Dto.MedicalServiceDTO;
+import ru.mihail.spring.ispi.Dto.MedicalReportDTO;
+import ru.mihail.spring.ispi.Dto.AdmissionDTO;
 import ru.mihail.spring.ispi.models.*;
 import ru.mihail.spring.ispi.services.SpecialtyService;
 
