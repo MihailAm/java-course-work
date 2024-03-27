@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.models.Admission;
-import ru.mihail.spring.ispi.services.AdmissionService;
+import ru.mihail.spring.ispi.services.Impl.AdmissionService;
 
 import java.util.Date;
 import java.util.List;
