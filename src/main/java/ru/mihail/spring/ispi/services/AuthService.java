@@ -51,10 +51,8 @@ public class AuthService {
     public String authenticateUser(LoginDTO userDto) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getEmail(), userDto.getPassword()));
-            // Кодирование переданного пароля
-//            String encodedPassword = passwordEncoder.encode(userDto.getPassword());
 
-            // Поиск пользователя в базе данных по email и закодированному паролю
+            // Поиск пользователя в базе данных по email
             Users user = userRepository.findByEmail(userDto.getEmail());
 
             if (user != null) {
