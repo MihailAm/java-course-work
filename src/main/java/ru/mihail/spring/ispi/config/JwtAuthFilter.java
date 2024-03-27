@@ -13,7 +13,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.mihail.spring.ispi.services.JwtService;
-import ru.mihail.spring.ispi.services.UsersService;
+import ru.mihail.spring.ispi.services.Impl.UsersService;
 
 import java.io.IOException;
 
