@@ -3,19 +3,19 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.Dto.DoctorAuthDTO;
 import ru.mihail.spring.ispi.Dto.LoginDTO;
 import ru.mihail.spring.ispi.Dto.PatientAuthDTO;
-import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 import ru.mihail.spring.ispi.models.Doctor;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.models.Users;
 import ru.mihail.spring.ispi.services.*;
+import ru.mihail.spring.ispi.services.Impl.DoctorService;
+import ru.mihail.spring.ispi.services.Impl.PatientService;
+import ru.mihail.spring.ispi.services.Impl.SpecialtyService;
+import ru.mihail.spring.ispi.services.Impl.UsersService;
 
 @RestController
 @RequestMapping("api/auth")

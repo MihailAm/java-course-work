@@ -1,4 +1,4 @@
-package ru.mihail.spring.ispi.services;
+package ru.mihail.spring.ispi.services.Impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

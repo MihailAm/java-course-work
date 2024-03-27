@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.models.Patient;
-import ru.mihail.spring.ispi.services.PatientService;
+import ru.mihail.spring.ispi.services.Impl.PatientService;
 
 import java.util.List;
 

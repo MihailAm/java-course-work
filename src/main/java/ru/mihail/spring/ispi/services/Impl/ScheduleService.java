@@ -1,4 +1,4 @@
-package ru.mihail.spring.ispi.services;
+package ru.mihail.spring.ispi.services.Impl;
 
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Schedule;
