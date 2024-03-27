@@ -8,11 +8,8 @@ import ru.mihail.spring.ispi.models.Users;
 import java.util.List;
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-    // Метод для сохранения доктора
-    Doctor save(Doctor doctor);
-
-    // Метод для получения списка всех докторов
-    List<Doctor> findAll();
-
+    List<Doctor> findBySpecialtyName(String specialtyName);
     Doctor findByUser(Users user);
+
+
 }

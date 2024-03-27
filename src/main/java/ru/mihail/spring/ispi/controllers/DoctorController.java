@@ -3,22 +3,16 @@ package ru.mihail.spring.ispi.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.mihail.spring.ispi.Dto.DoctorAuthDTO;
+import ru.mihail.spring.ispi.Dto.DoctorDTO;
 import ru.mihail.spring.ispi.models.Doctor;
-import ru.mihail.spring.ispi.models.Specialty;
-import ru.mihail.spring.ispi.models.Users;
-import ru.mihail.spring.ispi.services.DoctorService;
-import ru.mihail.spring.ispi.services.SpecialtyService;
-import ru.mihail.spring.ispi.services.UsersService;
+import ru.mihail.spring.ispi.services.Impl.DoctorService;
+import ru.mihail.spring.ispi.services.Impl.SpecialtyService;
+import ru.mihail.spring.ispi.services.Impl.UsersService;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
 import java.util.List;
@@ -38,57 +32,39 @@ public class DoctorController {
     @Autowired
     private Mapper Mapper;
 
-//    @Transactional
-//    @PostMapping("/register-doctor")
-//    public ResponseEntity<String> registerDoctor(@RequestBody DoctorAuthDTO doctorRequest) {
-//        // СОЗДАНИЯ ПОЛЬЗОВАТЕЛЯ
-//        Users user = new Users();
-//
-//        user.setEmail(doctorRequest.getEmail());
-//        user.setPassword(doctorRequest.getPassword());
-//        usersService.saveDoctor(user);
-//
-//        // СОЗДАНИЕ ДОКТОРА
-//        Doctor doctor = new Doctor();
-//        doctor.setUser(user);
-//        doctor.setFirstName(doctorRequest.getFirstName());
-//        doctor.setLastName(doctorRequest.getLastName());
-//        doctor.setPosition(doctorRequest.getPosition());
-//
-//
-//        Specialty specialty = specialtyService.findById(doctorRequest.getSpecialtyId());
-//        doctor.setSpecialty(specialty);
-//
-//        doctorService.save(doctor);
-//
-//        return new ResponseEntity<>("Doctor registered successfully", HttpStatus.CREATED);
-//    }
-
-
 
     // Получение врача по его идентификатору (id)
     @GetMapping("/search/{id}")
-    public ResponseEntity<Doctor> getDoctorById(@PathVariable Long id) {
+    public ResponseEntity<DoctorDTO> getDoctorById(@PathVariable Long id) {
         Doctor doctor = doctorService.getDoctorById(id);
         if (doctor != null) {
-            return new ResponseEntity<>(doctor, HttpStatus.OK);
+            DoctorDTO doctorDTO = Mapper.convertToDoctorDTO(doctor);
+            return new ResponseEntity<>(doctorDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     // Получение списка всех врачей
-    @GetMapping("all-doctor")
-    public List<Doctor> getAllDoctors() {
-        return doctorService.getAllDoctors();
+    @GetMapping("/all")
+    public ResponseEntity<List<DoctorDTO>> getAllDoctors() {
+        List<Doctor> doctors = doctorService.getAllDoctors();
+        List<DoctorDTO> doctorDTOs = Mapper.convertToDoctorDTOList(doctors);
+        return new ResponseEntity<>(doctorDTOs, HttpStatus.OK);
     }
 
     //    Обновление врача по id
     @PutMapping("/update/{id}")
-    public ResponseEntity<Doctor> updateDoctor(@PathVariable Long id, @Valid @RequestBody Doctor doctor) {
-        doctor.setId(id);
+    public ResponseEntity<DoctorDTO> updateDoctor(@PathVariable Long id, @Valid @RequestBody DoctorDTO doctorDTO) {
+        doctorDTO.setId(id);
+        Doctor doctor = Mapper.convertToDoctorEntity(doctorDTO);
         Doctor updatedDoctor = doctorService.updateDoctor(doctor);
-        return new ResponseEntity<>(updatedDoctor, HttpStatus.OK);
+        if (updatedDoctor != null) {
+            DoctorDTO updatedDoctorDTO = Mapper.convertToDoctorDTO(updatedDoctor);
+            return new ResponseEntity<>(updatedDoctorDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //    Удаление врача по id
@@ -100,8 +76,10 @@ public class DoctorController {
 
     // Получение врачей по специальности
     @GetMapping("/searchBySpec")
-    public List<Doctor> searchDoctorsBySpecialty(@RequestParam String specialtyName) {
-        return doctorService.searchDoctorsBySpecialty(specialtyName);
+    public ResponseEntity<List<DoctorDTO>> searchDoctorsBySpecialty(@RequestParam String specialtyName) {
+        List<Doctor> doctors = doctorService.searchDoctorsBySpecialty(specialtyName);
+        List<DoctorDTO> doctorDTOs = Mapper.convertToDoctorDTOList(doctors);
+        return new ResponseEntity<>(doctorDTOs, HttpStatus.OK);
     }
 
 }
