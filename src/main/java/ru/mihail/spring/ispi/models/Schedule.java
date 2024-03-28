@@ -5,6 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,19 +20,24 @@ public class Schedule {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "schedule_id")
     private Long id;
 
-    @Column(name = "date")
-    @NotBlank(message = "Дата не может быть пустой")
-    private String date;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doctor_id", nullable = false)
-    @NotNull(message = "Идентификатор врача не может быть пустым")
     private Doctor doctor;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
-    private List<Admission> admissions;
+    // Время начала и конца работы
+    @Column(name = "start_time")
+    private LocalTime startTime;
 
+    @Column(name = "end_time")
+    private LocalTime endTime;
+
+    // Дата расписания
+    @Column(name = "schedule_date")
+    private LocalDate scheduleDate;
+
+    // Справочная информация
+    @Column(name = "additional_info")
+    private String additionalInfo;
 }

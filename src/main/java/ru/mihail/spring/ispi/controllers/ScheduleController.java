@@ -1,15 +1,22 @@
 package ru.mihail.spring.ispi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
+import ru.mihail.spring.ispi.Dto.ScheduleDTO;
 import ru.mihail.spring.ispi.models.Schedule;
 import jakarta.validation.Valid;
+import ru.mihail.spring.ispi.services.Impl.AdmissionService;
 import ru.mihail.spring.ispi.services.Impl.ScheduleService;
 import ru.mihail.spring.ispi.models.Admission;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/schedule")
@@ -17,51 +24,52 @@ public class ScheduleController {
 
     @Autowired
     private ScheduleService scheduleService;
+    @Autowired
+    private AdmissionService admissionService;
 
-    // Получение расписания по его идентификатору (id)
+    @Autowired
+    private Mapper Mapper;
+
+    // метод который достает все приемы по доктору и дате, формирует расписание
+    @GetMapping("/generate/doctor/{doctorId}")
+    public List<Admission> getAdmissionsByDoctorIdAndDate(@PathVariable Long doctorId, @RequestParam Date date) {
+        return admissionService.getAdmissionsByDoctorIdAndDate(doctorId, date);
+    }
+
+    // создает расписание врачей для пациентов
+    @PostMapping("/create")
+    public ScheduleDTO createSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+        Schedule schedule = Mapper.convertToScheduleEntity(scheduleDTO);
+        Schedule createdSchedule = scheduleService.addSchedule(schedule);
+        return Mapper.convertToScheduleDTO(createdSchedule);
+    }
+
+    // расписание по id
     @GetMapping("/{id}")
-    public ResponseEntity<Schedule> getScheduleById(@PathVariable Long id) {
-        Schedule schedule = scheduleService.getScheduleById(id);
-        if (schedule != null) {
-            return new ResponseEntity<>(schedule, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ScheduleDTO getScheduleById(@PathVariable Long id) {
+        Schedule schedule = scheduleService.findScheduleById(id);
+        return Mapper.convertToScheduleDTO(schedule);
     }
 
-    // Добавление расписания
-    @PostMapping("/add")
-    public ResponseEntity<Schedule> addSchedule(@Valid @RequestBody Schedule schedule) {
-        Schedule addedSchedule = scheduleService.addSchedule(schedule);
-        return new ResponseEntity<>(addedSchedule, HttpStatus.CREATED);
+    // берет расписание по врачу и дате, так можно посмотреть как работает врач в определенный день
+    @GetMapping("/doctor/{doctorId}")
+    public ScheduleDTO getSchedulesByDoctorIdAndDate(@PathVariable Long doctorId, @RequestParam LocalDate date) {
+        Schedule schedule = scheduleService.getScheduleByDoctorIdAndDate(doctorId, date);
+        return Mapper.convertToScheduleDTO(schedule);
     }
 
-    // Удаление расписания по его идентификатору (id)
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable Long id) {
-        scheduleService.deleteScheduleById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    // изменить
+    @PutMapping("/update")
+    public ScheduleDTO updateSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+        Schedule schedule = Mapper.convertToScheduleEntity(scheduleDTO);
+        Schedule updatedSchedule = scheduleService.updateSchedule(schedule);
+        return Mapper.convertToScheduleDTO(updatedSchedule);
     }
 
-    // Обновление расписания
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Schedule> updateSchedule(@PathVariable Long id, @Valid @RequestBody Schedule scheduleDetails) {
-        Schedule updatedSchedule = scheduleService.updateSchedule(id, scheduleDetails);
-        if (updatedSchedule != null) {
-            return new ResponseEntity<>(updatedSchedule, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    // удалить
+    @DeleteMapping("/{id}")
+    public void deleteSchedule(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
     }
 
-    // Добавление списка приемов к расписанию по дате
-    @PostMapping("/addAdmissions/{date}")
-    public ResponseEntity<Schedule> addAdmissionsToSchedule(@PathVariable String date, @RequestBody List<Admission> admissions) {
-        Schedule schedule = scheduleService.addAdmissionsToSchedule(date, admissions);
-        if (schedule != null) {
-            return new ResponseEntity<>(schedule, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
 }

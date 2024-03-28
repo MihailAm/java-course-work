@@ -1,40 +1,43 @@
 package ru.mihail.spring.ispi.services.Impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mihail.spring.ispi.Dto.ScheduleDTO;
 import ru.mihail.spring.ispi.models.Schedule;
-import ru.mihail.spring.ispi.models.Admission;
+import ru.mihail.spring.ispi.models.Specialty;
+import ru.mihail.spring.ispi.repositories.ScheduleRepository;
+import ru.mihail.spring.ispi.services.Interfaces.ScheduleServiceInterface;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Optional;
 
 @Service
-public class ScheduleService {
+public class ScheduleService implements ScheduleServiceInterface {
 
-    // Заглушка для получения расписания по его идентификатору (id)
-    public Schedule getScheduleById(Long id) {
-        // Логика получения расписания по id
-        return new Schedule();
-    }
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
-    // Заглушка для добавления расписания
+
     public Schedule addSchedule(Schedule schedule) {
-        // Логика добавления расписания
-        return new Schedule();
+        return scheduleRepository.save(schedule);
     }
 
-    // Заглушка для удаления расписания по его идентификатору (id)
-    public void deleteScheduleById(Long id) {
-        // Логика удаления расписания
+    public void deleteSchedule(Long id) {
+        scheduleRepository.deleteById(id);
     }
 
-    // Заглушка для обновления расписания
-    public Schedule updateSchedule(Long id, Schedule scheduleDetails) {
-        // Логика обновления расписания
-        return new Schedule();
+    public Schedule findScheduleById(Long id) {
+        Optional<Schedule> scheduleOptional = scheduleRepository.findById(id);
+        return scheduleOptional.orElse(null);
     }
 
-    // Заглушка для добавления списка приемов к расписанию по дате
-    public Schedule addAdmissionsToSchedule(String date, List<Admission> admissions) {
-        // Логика добавления списка приемов к расписанию по дате
-        return new Schedule();
+    public Schedule updateSchedule(Schedule schedule) {
+        return scheduleRepository.save(schedule);
+    }
+
+    public Schedule getScheduleByDoctorIdAndDate(Long doctorId, LocalDate date) {
+        Optional<Schedule> scheduleOptional = scheduleRepository.findByDoctorIdAndScheduleDate(doctorId, date);
+        return scheduleOptional.orElse(null);
     }
 }

@@ -3,6 +3,10 @@ package ru.mihail.spring.ispi.Dto;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mihail.spring.ispi.models.Admission;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -11,9 +15,13 @@ public class ScheduleDTO {
 
     private Long id;
 
-    private String date;
-
-    private List<Admission> admissions;
-
     private Long doctorId;
+
+    private LocalTime startTime;
+
+    private LocalTime endTime;
+
+    private LocalDate scheduleDate;
+
+    private String additionalInfo;
 }
