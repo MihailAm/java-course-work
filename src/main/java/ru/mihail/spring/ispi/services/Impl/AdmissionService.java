@@ -3,12 +3,16 @@ package ru.mihail.spring.ispi.services.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Admission;
+import ru.mihail.spring.ispi.repositories.AdmissionRepository;
+import ru.mihail.spring.ispi.services.Interfaces.AdmissionServiceInterface;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class AdmissionService {
+public class AdmissionService implements AdmissionServiceInterface {
+    @Autowired
+    private AdmissionRepository admissionRepository;
 
     /*
     Create REP
@@ -47,5 +51,10 @@ public class AdmissionService {
         // Логика поиска приемов по дате
         //return admissionRepository.findByAdmissionDatetimeContaining(date);
         return null;  //tmp
+    }
+
+    // ЭТО НЕ УДАЛЯТЬ !!!!!!!!
+    public List<Admission> getAdmissionsByDoctorIdAndDate(Long doctorId, Date date) {
+        return admissionRepository.findByDoctorIdAndDate(doctorId, date);
     }
 }
