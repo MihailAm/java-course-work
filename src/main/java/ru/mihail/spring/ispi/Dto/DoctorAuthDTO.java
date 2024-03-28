@@ -12,4 +12,5 @@ public class DoctorAuthDTO {
     private String lastName;
     private Long specialtyId;
     private String position;
+    private String office;
 }

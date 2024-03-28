@@ -43,5 +43,8 @@ public class Doctor {
     @Column(name = "position")
     private String position;
 
+    @Column(name = "office")
+    private String office;
+
 
 }

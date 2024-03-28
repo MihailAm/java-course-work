@@ -19,6 +19,8 @@ public class DoctorDTO {
     private Long specialtyId;
 
     private String position;
+
+    private String office;
 }
 
 
