@@ -17,9 +17,6 @@ public class Admission {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "schedule_id", nullable = false)
-    private Schedule schedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id", nullable = false)
@@ -36,9 +33,6 @@ public class Admission {
     @Column(name = "time")
     @Temporal(TemporalType.TIME)
     private Date time;
-
-    @Column(name = "office")
-    private String office;
 
     @Column(name = "service_id")
     private Long serviceId;

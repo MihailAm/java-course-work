@@ -2,7 +2,9 @@ package ru.mihail.spring.ispi.Dto;
 
 import ru.mihail.spring.ispi.models.Doctor;
 import ru.mihail.spring.ispi.models.Patient;
+
 import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +22,6 @@ public class AdmissionDTO {
     private Date date;
 
     private Date time;
-
-    private String office;
 
     private Long serviceId;
 }
