@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.Dto.*;
 import ru.mihail.spring.ispi.models.*;
+import ru.mihail.spring.ispi.services.Impl.DoctorService;
 import ru.mihail.spring.ispi.services.Impl.SpecialtyService;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public class Mapper {
 
     @Autowired
     private SpecialtyService specialtyService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ ДОКТОРА
     public Users DoctorToUsersEntity(DoctorAuthDTO doctorRequest) {
@@ -33,6 +37,7 @@ public class Mapper {
         doctor.setPosition(doctorRequest.getPosition());
         Specialty specialty = specialtyService.findById(doctorRequest.getSpecialtyId());
         doctor.setSpecialty(specialty);
+        doctor.setOffice(doctorRequest.getOffice());
         return doctor;
     }
     // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ ПАЦИЕНТА
@@ -91,6 +96,7 @@ public class Mapper {
         doctorDTO.setUserId(doctor.getUser().getId());
         doctorDTO.setSpecialtyId(doctor.getSpecialty().getId());
         doctorDTO.setPosition(doctor.getPosition());
+        doctorDTO.setOffice(doctor.getOffice());
         return doctorDTO;
     }
 
@@ -109,6 +115,37 @@ public class Mapper {
         doctor.setSpecialty(specialty);
 
         doctor.setPosition(doctorDTO.getPosition());
+        doctor.setOffice(doctorDTO.getOffice());
         return doctor;
+    }
+
+    // МАППЕР ДЛЯ РАПСАИСАНИЯ
+
+    public Schedule convertToScheduleEntity(ScheduleDTO scheduleDTO) {
+        Schedule schedule = new Schedule();
+        schedule.setId(scheduleDTO.getId());
+
+        // Преобразование doctorId в объект Doctor, предполагается, что у вас есть сервис для получения доктора по его ID
+        Doctor doctor = doctorService.getDoctorById(scheduleDTO.getDoctorId());
+        schedule.setDoctor(doctor);
+
+        schedule.setStartTime(scheduleDTO.getStartTime());
+        schedule.setEndTime(scheduleDTO.getEndTime());
+        schedule.setScheduleDate(scheduleDTO.getScheduleDate());
+        schedule.setAdditionalInfo(scheduleDTO.getAdditionalInfo());
+
+        return schedule;
+    }
+
+    public ScheduleDTO convertToScheduleDTO(Schedule schedule) {
+        ScheduleDTO scheduleDTO = new ScheduleDTO();
+        scheduleDTO.setId(schedule.getId());
+        scheduleDTO.setDoctorId(schedule.getDoctor().getId());
+        scheduleDTO.setStartTime(schedule.getStartTime());
+        scheduleDTO.setEndTime(schedule.getEndTime());
+        scheduleDTO.setScheduleDate(schedule.getScheduleDate());
+        scheduleDTO.setAdditionalInfo(schedule.getAdditionalInfo());
+
+        return scheduleDTO;
     }
 }
