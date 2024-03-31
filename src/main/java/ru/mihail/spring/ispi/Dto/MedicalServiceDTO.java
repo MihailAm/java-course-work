@@ -11,4 +11,6 @@ public class MedicalServiceDTO {
     private String name;
 
     private Double price;
+
+    private String description;
 }

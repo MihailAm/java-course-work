@@ -24,4 +24,6 @@ public class MedicalService {
     @PositiveOrZero(message = "Цена не может быть отрицательной")
     private Double price;
 
+    @Column(name = "description")
+    private String description;
 }
