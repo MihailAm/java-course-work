@@ -21,6 +21,26 @@ public class Mapper {
     @Autowired
     private DoctorService doctorService;
 
+    public MedicalService convertToMedicalServiceEntity(MedicalServiceDTO medicalServiceDTO) {
+        MedicalService medicalService = new MedicalService();
+        medicalService.setId(medicalServiceDTO.getId());
+        medicalService.setName(medicalServiceDTO.getName());
+        medicalService.setPrice(medicalServiceDTO.getPrice());
+        medicalService.setDescription(medicalServiceDTO.getDescription());
+        return medicalService;
+    }
+
+    public MedicalServiceDTO convertToMedicalServiceDTO(MedicalService medicalService) {
+        MedicalServiceDTO medicalServiceDTO = new MedicalServiceDTO();
+        medicalServiceDTO.setId(medicalService.getId());
+        medicalServiceDTO.setName(medicalService.getName());
+        medicalServiceDTO.setPrice(medicalService.getPrice());
+        medicalServiceDTO.setDescription(medicalService.getDescription());
+        return medicalServiceDTO;
+    }
+
+
+
     // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ ДОКТОРА
     public Users DoctorToUsersEntity(DoctorAuthDTO doctorRequest) {
         Users user = new Users();
@@ -148,4 +168,11 @@ public class Mapper {
 
         return scheduleDTO;
     }
+
+    public List<MedicalServiceDTO> convertToMedicalServiceDTOList(List<MedicalService> medicalServices) {
+        return medicalServices.stream()
+                .map(this::convertToMedicalServiceDTO)
+                .collect(Collectors.toList());
+    }
+
 }

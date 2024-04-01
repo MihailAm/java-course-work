@@ -1,66 +1,71 @@
 package ru.mihail.spring.ispi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.mihail.spring.ispi.Dto.MedicalServiceDTO;
 import ru.mihail.spring.ispi.models.MedicalService;
 import ru.mihail.spring.ispi.services.Impl.MedicalServiceService;
+import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/medical-services")
+@RequestMapping("/api/medical-service")
 public class MedicalServiceController {
 
     @Autowired
     private MedicalServiceService medicalServiceService;
 
-    // Получение списка всех медицинских услуг
-    @GetMapping("/all")
-    public ResponseEntity<List<MedicalService>> getAllMedicalServices() {
-        List<MedicalService> medicalServices = medicalServiceService.getAllMedicalServices();
-        return ResponseEntity.ok(medicalServices);
-    }
+    @Autowired
+    private Mapper mapper;
 
-    // Поиск медицинской услуги по id
-    @GetMapping("/{id}")
-    public ResponseEntity<MedicalService> getMedicalServiceById(@PathVariable Long id) {
+    // Получение медицинской услуги по ее идентификатору (id)
+    @GetMapping("/search/{id}")
+    public ResponseEntity<MedicalServiceDTO> getMedicalServiceById(@PathVariable Long id) {
         MedicalService medicalService = medicalServiceService.getMedicalServiceById(id);
         if (medicalService != null) {
-            return ResponseEntity.ok(medicalService);
+            MedicalServiceDTO medicalServiceDTO = mapper.convertToMedicalServiceDTO(medicalService);
+            return new ResponseEntity<>(medicalServiceDTO, HttpStatus.OK);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Добавление новой услуги
-    @PostMapping("/create")
-    public ResponseEntity<MedicalService> createMedicalService(@RequestBody MedicalService medicalService) {
-        MedicalService createdMedicalService = medicalServiceService.createMedicalService(medicalService);
-        return ResponseEntity.ok(createdMedicalService);
+    // Получение списка всех медицинских услуг
+    @GetMapping("/all")
+    public ResponseEntity<List<MedicalServiceDTO>> getAllMedicalServices() {
+        List<MedicalService> medicalServices = medicalServiceService.getAllMedicalServices();
+        List<MedicalServiceDTO> medicalServiceDTOs = mapper.convertToMedicalServiceDTOList(medicalServices);
+        return new ResponseEntity<>(medicalServiceDTOs, HttpStatus.OK);
     }
 
-    // Изменение медицинской услуги по id
+    // Обновление медицинской услуги по id
     @PutMapping("/update/{id}")
-    public ResponseEntity<MedicalService> updateMedicalServiceById(@PathVariable Long id,
-                                                                   @RequestBody MedicalService updatedMedicalService) {
-        MedicalService medicalService = medicalServiceService.updateMedicalServiceById(id, updatedMedicalService);
-        if (medicalService != null) {
-            return ResponseEntity.ok(medicalService);
+    public ResponseEntity<MedicalServiceDTO> updateMedicalService(@PathVariable Long id, @Valid @RequestBody MedicalServiceDTO medicalServiceDTO) {
+        medicalServiceDTO.setId(id);
+        MedicalService medicalService = mapper.convertToMedicalServiceEntity(medicalServiceDTO);
+        MedicalService updatedMedicalService = medicalServiceService.updateMedicalService(medicalService);
+        if (updatedMedicalService != null) {
+            MedicalServiceDTO updatedMedicalServiceDTO = mapper.convertToMedicalServiceDTO(updatedMedicalService);
+            return new ResponseEntity<>(updatedMedicalServiceDTO, HttpStatus.OK);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     // Удаление медицинской услуги по id
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteMedicalServiceById(@PathVariable Long id) {
-        boolean deleted = medicalServiceService.deleteMedicalServiceById(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteMedicalService(@PathVariable Long id) {
+        medicalServiceService.deleteMedicalService(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/searchByName")
+    public ResponseEntity<List<MedicalService>> searchMedicalServiceByName(@RequestParam("name") String name) {
+        List<MedicalService> medicalServices = medicalServiceService.findMedicalServiceByName(name);
+        return new ResponseEntity<>(medicalServices, HttpStatus.OK);
     }
 }
-

@@ -3,50 +3,47 @@ package ru.mihail.spring.ispi.services.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.MedicalService;
+import ru.mihail.spring.ispi.repositories.MedicalServiceRepository;
+import ru.mihail.spring.ispi.services.Interfaces.MedicalServiceServiceInterface;
 
 import java.util.List;
 
 @Service
-public class MedicalServiceService {
-    /*
-    Create REP
+public class MedicalServiceService implements MedicalServiceServiceInterface {
+
     @Autowired
     private MedicalServiceRepository medicalServiceRepository;
-    */
-    public List<MedicalService> getAllMedicalServices() {
-        //return medicalServiceRepository.findAll();
-        return null;  //tmp
+
+    @Override
+    public MedicalService addMedicalService(MedicalService medicalService) {
+        return medicalServiceRepository.save(medicalService);
     }
 
+    @Override
+    public void deleteMedicalService(Long id) {
+        medicalServiceRepository.deleteById(id);
+    }
+
+    @Override
     public MedicalService getMedicalServiceById(Long id) {
-        //return medicalServiceRepository.findById(id).orElse(null);
-        return null;  //tmp
+        return medicalServiceRepository.findById(id).orElse(null);
     }
 
-    public MedicalService createMedicalService(MedicalService medicalService) {
-        //return medicalServiceRepository.save(medicalService);
-        return medicalService;  //tmp
-    }
-
-    public MedicalService updateMedicalServiceById(Long id, MedicalService updatedMedicalService) {
-        /*
-        if (medicalServiceRepository.existsById(id)) {
-            updatedMedicalService.setId(id);
-            return medicalServiceRepository.save(updatedMedicalService);
+    @Override
+    public MedicalService updateMedicalService(MedicalService medicalService) {
+        if (medicalServiceRepository.existsById(medicalService.getId())) {
+            return medicalServiceRepository.save(medicalService);
         }
         return null;
-        */
-        return updatedMedicalService;  //tmp
     }
 
-    public boolean deleteMedicalServiceById(Long id) {
-        /*
-        if (medicalServiceRepository.existsById(id)) {
-            medicalServiceRepository.deleteById(id);
-            return true;
-        }
-        return false;
-         */
-        return false;  //tmp
+    @Override
+    public List<MedicalService> getAllMedicalServices() {
+        return medicalServiceRepository.findAll();
+    }
+
+    @Override
+    public List<MedicalService> findMedicalServiceByName(String name) {
+        return medicalServiceRepository.findByName(name);
     }
 }
