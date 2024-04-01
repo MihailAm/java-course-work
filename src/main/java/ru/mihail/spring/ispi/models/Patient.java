@@ -2,9 +2,13 @@ package ru.mihail.spring.ispi.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "patient")
+@Getter
+@Setter
 public class Patient {
 
     @Id
@@ -38,61 +42,6 @@ public class Patient {
     @Column(name = "snils")
     @Pattern(regexp="[0-9]{3}-?[0-9]{3}-?[0-9]{3}\\s[0-9]{2}", message="Неправильный формат СНИЛС")
     private String snils;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Users getUser() {
-        return user;
-    }
-
-    public void setUser(Users user) {
-        this.user = user;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getSnils() {
-        return snils;
-    }
-
-    public void setSnils(String snils) {
-        this.snils = snils;
-    }
+    
 }
 
