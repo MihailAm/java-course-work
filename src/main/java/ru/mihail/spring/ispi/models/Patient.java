@@ -42,6 +42,5 @@ public class Patient {
     @Column(name = "snils")
     @Pattern(regexp="[0-9]{3}-?[0-9]{3}-?[0-9]{3}\\s[0-9]{2}", message="Неправильный формат СНИЛС")
     private String snils;
-    
 }
 

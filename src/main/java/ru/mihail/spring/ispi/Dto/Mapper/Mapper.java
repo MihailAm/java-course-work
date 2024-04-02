@@ -175,4 +175,41 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
+    public Patient convertToPatientEntity(PatientDTO patientDTO) {
+        Patient patient = new Patient();
+        patient.setId(patientDTO.getId());
+        patient.setFirstName(patientDTO.getFirstName());
+        patient.setLastName(patientDTO.getLastName());
+        patient.setAge(patientDTO.getAge());
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
+        patient.setSnils(patientDTO.getSnils());
+
+        return patient;
+    }
+
+    public PatientDTO convertToPatientDTO(Patient patient) {
+        PatientDTO patientDTO = new PatientDTO();
+        patientDTO.setId(patient.getId());
+        patientDTO.setFirstName(patient.getFirstName());
+        patientDTO.setLastName(patient.getLastName());
+        patientDTO.setAge(patient.getAge());
+        patientDTO.setPhoneNumber(patient.getPhoneNumber());
+        patientDTO.setSnils(patient.getSnils());
+
+        return patientDTO;
+    }
+
+    public void updatePatientFromDTO(Patient existingPatient, PatientDTO updatedPatientDTO) {
+        existingPatient.setFirstName(updatedPatientDTO.getFirstName());
+        existingPatient.setLastName(updatedPatientDTO.getLastName());
+        existingPatient.setAge(updatedPatientDTO.getAge());
+        existingPatient.setPhoneNumber(updatedPatientDTO.getPhoneNumber());
+        existingPatient.setSnils(updatedPatientDTO.getSnils());
+    }
+
+    public List<PatientDTO> convertToPatientDTOList(List<Patient> patients) {
+        return patients.stream()
+                .map(this::convertToPatientDTO)
+                .collect(Collectors.toList());
+    }
 }

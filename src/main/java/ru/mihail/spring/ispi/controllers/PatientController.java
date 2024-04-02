@@ -1,78 +1,71 @@
 package ru.mihail.spring.ispi.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.mihail.spring.ispi.Dto.PatientDTO;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.services.Impl.PatientService;
+import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/patients")
+@RequestMapping("api/patient")
 public class PatientController {
 
     @Autowired
     private PatientService patientService;
 
-    // Создание нового пациента
-    @PostMapping("/create")
-    public ResponseEntity<Patient> createPatient(@RequestBody Patient patient) {
-        Patient createdPatient = patientService.createPatient(patient);
-        return ResponseEntity.ok(createdPatient);
+    @Autowired
+    private Mapper mapper;
+
+    // Получение пациента по его идентификатору (id)
+    @GetMapping("/search/{id}")
+    public ResponseEntity<PatientDTO> getPatientById(@PathVariable Long id) {
+        Patient patient = patientService.getPatientById(id);
+        if (patient != null) {
+            PatientDTO patientDTO = mapper.convertToPatientDTO(patient);
+            return new ResponseEntity<>(patientDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // Получение списка всех пациентов
     @GetMapping("/all")
-    public ResponseEntity<List<Patient>> getAllPatients() {
+    public ResponseEntity<List<PatientDTO>> getAllPatients() {
         List<Patient> patients = patientService.getAllPatients();
-        return ResponseEntity.ok(patients);
+        List<PatientDTO> patientDTOs = mapper.convertToPatientDTOList(patients);
+        return new ResponseEntity<>(patientDTOs, HttpStatus.OK);
     }
 
-    // Получение информации о пациенте по ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        Patient patient = patientService.getPatientById(id);
-        if (patient != null) {
-            return ResponseEntity.ok(patient);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
-    // Обновление информации о пациенте
+    //    Обновление пациента по id
     @PutMapping("/update/{id}")
-    public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient updatedPatient) {
-        Patient patient = patientService.updatePatient(id, updatedPatient);
-        if (patient != null) {
-            return ResponseEntity.ok(patient);
+    public ResponseEntity<PatientDTO> updatePatient(@PathVariable Long id, @Valid @RequestBody PatientDTO patientDTO) {
+        patientDTO.setId(id);
+        Patient patient = mapper.convertToPatientEntity(patientDTO);
+        Patient updatedPatient = patientService.updatePatient(id, patient);
+        if (updatedPatient != null) {
+            PatientDTO updatedPatientDTO = mapper.convertToPatientDTO(updatedPatient);
+            return new ResponseEntity<>(updatedPatientDTO, HttpStatus.OK);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Удаление пациента
+    //    Удаление пациента по id
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         boolean deleted = patientService.deletePatient(id);
         if (deleted) {
-            return ResponseEntity.noContent().build();
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Просмотр медкарты пациента
-    @GetMapping("/{id}/medical-record")
-    public ResponseEntity<String> viewMedicalRecord(@PathVariable Long id) {
-        // Логика для просмотра медкарты
-        // Предположим, что медкарта представлена строкой
-        String medicalRecord = patientService.viewMedicalRecord(id);
-        if (medicalRecord != null) {
-            return ResponseEntity.ok(medicalRecord);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }
-

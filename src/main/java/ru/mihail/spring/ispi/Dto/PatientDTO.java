@@ -6,7 +6,7 @@ import ru.mihail.spring.ispi.models.Users;
 
 @Getter
 @Setter
-public class PatienDTO {
+public class PatientDTO {
     private Long id;
     private Users user;
     private String firstName;
