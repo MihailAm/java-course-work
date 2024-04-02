@@ -212,4 +212,30 @@ public class Mapper {
                 .map(this::convertToPatientDTO)
                 .collect(Collectors.toList());
     }
+
+    public MedicalReportDTO convertToMedicalReportDTO(MedicalReport medicalReport) {
+        MedicalReportDTO medicalReportDTO = new MedicalReportDTO();
+        medicalReportDTO.setId(medicalReport.getId());
+        medicalReportDTO.setPatient(medicalReport.getPatient());
+        medicalReportDTO.setDoctor(medicalReport.getDoctor());
+        medicalReportDTO.setAdmission(medicalReport.getAdmission());
+        medicalReportDTO.setReport(medicalReport.getReport());
+        return medicalReportDTO;
+    }
+
+    public List<MedicalReportDTO> convertToMedicalReportDTOList(List<MedicalReport> medicalReports) {
+        return medicalReports.stream()
+                .map(this::convertToMedicalReportDTO)
+                .collect(Collectors.toList());
+    }
+
+    public MedicalReport convertToMedicalReportEntity(MedicalReportDTO medicalReportDTO) {
+        MedicalReport medicalReport = new MedicalReport();
+        medicalReport.setId(medicalReportDTO.getId());
+        medicalReport.setPatient(medicalReportDTO.getPatient());
+        medicalReport.setDoctor(medicalReportDTO.getDoctor());
+        medicalReport.setAdmission(medicalReportDTO.getAdmission());
+        medicalReport.setReport(medicalReportDTO.getReport());
+        return medicalReport;
+    }
 }

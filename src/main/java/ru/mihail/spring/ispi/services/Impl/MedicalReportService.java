@@ -3,67 +3,45 @@ package ru.mihail.spring.ispi.services.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.MedicalReport;
+import ru.mihail.spring.ispi.models.Patient;
+import ru.mihail.spring.ispi.repositories.MedicalReportRepository;
+import ru.mihail.spring.ispi.services.Interfaces.MedicalReportServiceInterface;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class MedicalReportService {
+public class MedicalReportService implements MedicalReportServiceInterface {
 
-    /*
-    Create REP
     @Autowired
     private MedicalReportRepository medicalReportRepository;
-    */
 
-    public List<MedicalReport> getAllMedicalReports() {
-        //return medicalReportRepository.findAll();
-        return null;  //tmp
+    @Override
+    public MedicalReport addMedicalReport(MedicalReport medicalReport) {
+        return medicalReportRepository.save(medicalReport);
     }
 
+    @Override
+    public void deleteMedicalReport(Long id) {
+        medicalReportRepository.deleteById(id);
+    }
+
+    @Override
     public MedicalReport getMedicalReportById(Long id) {
-        //Optional<MedicalReport> optionalMedicalReport = medicalReportRepository.findById(id);
-        //return optionalMedicalReport.orElse(null);
-        return null;  //tmp
+        return medicalReportRepository.findById(id).orElse(null);
     }
 
-    public MedicalReport createMedicalReport(MedicalReport medicalReport) {
-        // Логика проверок перед сохранением, если необходимо
-        //return medicalReportRepository.save(medicalReport);
-        return null;  //tmp
+    @Override
+    public MedicalReport updateMedicalReport(MedicalReport medicalReport) {
+        return medicalReportRepository.save(medicalReport);
     }
 
-    public MedicalReport updateMedicalReport(Long id, MedicalReport updatedMedicalReport) {
-        /*
-        Optional<MedicalReport> optionalMedicalReport = medicalReportRepository.findById(id);
-        if (optionalMedicalReport.isPresent()) {
-            MedicalReport existingMedicalReport = optionalMedicalReport.get();
-
-            // Обновление полей медицинского заключения
-            existingMedicalReport.setDiagnosis(updatedMedicalReport.getDiagnosis());
-            existingMedicalReport.setPrescription(updatedMedicalReport.getPrescription());
-            // Обновление других полей по необходимости
-
-            return medicalReportRepository.save(existingMedicalReport);
-        } else {
-            return null; // Запись не найдена
-        }
-         */
-        return null;  //tmp
+    @Override
+    public List<MedicalReport> getAllMedicalReports() {
+        return medicalReportRepository.findAll();
     }
 
-    public boolean deleteMedicalReport(Long id) {
-        /*
-        Optional<MedicalReport> optionalMedicalReport = medicalReportRepository.findById(id);
-        if (optionalMedicalReport.isPresent()) {
-            medicalReportRepository.deleteById(id);
-            return true;
-        } else {
-            return false; // Запись не найдена
-        }
-        */
-
-        return false; //tmp
+    @Override
+    public List<MedicalReport> findMedicalReportByPatient(Patient patient) {
+        return medicalReportRepository.findByPatient(patient);
     }
 }
-

@@ -25,9 +25,9 @@ public class MedicalReport {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @Temporal(TemporalType.DATE)
+    @OneToOne
     @Column(name = "admission")
-    private Date admission;
+    private Admission admission;
 
     @Column(name = "report", columnDefinition = "TEXT")
     private String report;
