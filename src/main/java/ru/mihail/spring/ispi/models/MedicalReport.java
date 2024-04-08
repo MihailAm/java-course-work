@@ -26,7 +26,7 @@ public class MedicalReport {
     private Doctor doctor;
 
     @OneToOne
-    @Column(name = "admission")
+    @JoinColumn(name = "admission_id")
     private Admission admission;
 
     @Column(name = "report", columnDefinition = "TEXT")
