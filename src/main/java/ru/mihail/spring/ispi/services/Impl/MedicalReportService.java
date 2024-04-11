@@ -16,7 +16,7 @@ public class MedicalReportService implements MedicalReportServiceInterface {
     private MedicalReportRepository medicalReportRepository;
 
     @Override
-    public MedicalReport addMedicalReport(MedicalReport medicalReport) {
+    public MedicalReport createMedicalReport(MedicalReport medicalReport) {
         return medicalReportRepository.save(medicalReport);
     }
 

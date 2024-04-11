@@ -6,7 +6,7 @@ import ru.mihail.spring.ispi.models.Patient;
 import java.util.List;
 
 public interface MedicalReportServiceInterface {
-    MedicalReport addMedicalReport(MedicalReport medicalReport);
+    MedicalReport createMedicalReport(MedicalReport medicalReport);
     void deleteMedicalReport(Long id);
     MedicalReport getMedicalReportById(Long id);
     MedicalReport updateMedicalReport(MedicalReport medicalReport);

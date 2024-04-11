@@ -28,8 +28,23 @@ public class MedicalReportController {
     @Autowired
     private Mapper mapper;
 
+    // Создание нового медицинского отчета
+    @PostMapping("/create")
+    public ResponseEntity<MedicalReportDTO> createMedicalReport(@Valid @RequestBody MedicalReportDTO medicalReportDTO) {
+        MedicalReport medicalReport = mapper.convertToMedicalReportEntity(medicalReportDTO);
+
+        MedicalReport createdMedicalReport = medicalReportService.createMedicalReport(medicalReport);
+
+        if (createdMedicalReport != null) {
+            MedicalReportDTO createdMedicalReportDTO = mapper.convertToMedicalReportDTO(createdMedicalReport);
+            return new ResponseEntity<>(createdMedicalReportDTO, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
     // Получение медицинского отчета по его идентификатору (id)
-    @GetMapping("/{id}")
+    @GetMapping("get/{id}")
     public ResponseEntity<MedicalReportDTO> getMedicalReportById(@PathVariable Long id) {
         MedicalReport medicalReport = medicalReportService.getMedicalReportById(id);
         if (medicalReport != null) {
@@ -49,7 +64,7 @@ public class MedicalReportController {
     }
 
     // Обновление медицинского отчета по его идентификатору (id)
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<MedicalReportDTO> updateMedicalReport(@PathVariable Long id, @Valid @RequestBody MedicalReportDTO medicalReportDTO) {
         medicalReportDTO.setId(id);
         MedicalReport medicalReport = mapper.convertToMedicalReportEntity(medicalReportDTO);
@@ -63,7 +78,7 @@ public class MedicalReportController {
     }
 
     // Удаление медицинского отчета по его идентификатору (id)
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public ResponseEntity<Void> deleteMedicalReport(@PathVariable Long id) {
         medicalReportService.deleteMedicalReport(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
