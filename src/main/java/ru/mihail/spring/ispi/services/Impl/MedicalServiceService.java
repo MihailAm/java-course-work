@@ -15,7 +15,7 @@ public class MedicalServiceService implements MedicalServiceServiceInterface {
     private MedicalServiceRepository medicalServiceRepository;
 
     @Override
-    public MedicalService addMedicalService(MedicalService medicalService) {
+    public MedicalService createMedicalService(MedicalService medicalService) {
         return medicalServiceRepository.save(medicalService);
     }
 

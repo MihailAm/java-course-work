@@ -4,7 +4,7 @@ import ru.mihail.spring.ispi.models.MedicalService;
 import java.util.List;
 
 public interface MedicalServiceServiceInterface {
-    MedicalService addMedicalService(MedicalService medicalService);
+    MedicalService createMedicalService(MedicalService medicalService);
     void deleteMedicalService(Long id);
     MedicalService getMedicalServiceById(Long id);
     MedicalService updateMedicalService(MedicalService medicalService);

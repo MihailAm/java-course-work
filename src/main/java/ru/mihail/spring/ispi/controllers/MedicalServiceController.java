@@ -22,6 +22,20 @@ public class MedicalServiceController {
     @Autowired
     private Mapper mapper;
 
+    // Создание новой медицинской услуги
+    @PostMapping("/create")
+    public ResponseEntity<MedicalServiceDTO> createMedicalService(@Valid @RequestBody MedicalServiceDTO medicalServiceDTO) {
+        MedicalService medicalService = mapper.convertToMedicalServiceEntity(medicalServiceDTO);
+        MedicalService createdMedicalService = medicalServiceService.createMedicalService(medicalService);
+        if (createdMedicalService != null) {
+            MedicalServiceDTO createdMedicalServiceDTO = mapper.convertToMedicalServiceDTO(createdMedicalService);
+            return new ResponseEntity<>(createdMedicalServiceDTO, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
     // Получение медицинской услуги по ее идентификатору (id)
     @GetMapping("/search/{id}")
     public ResponseEntity<MedicalServiceDTO> getMedicalServiceById(@PathVariable Long id) {
