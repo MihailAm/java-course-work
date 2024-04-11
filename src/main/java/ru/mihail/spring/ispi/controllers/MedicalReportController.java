@@ -85,8 +85,8 @@ public class MedicalReportController {
     }
 
     // Поиск медицинских отчетов по пациенту
-    @GetMapping("/searchByPatient")
-    public ResponseEntity<List<MedicalReportDTO>> searchMedicalReportByPatient(@RequestParam("patientId") Long patientId) {
+    @GetMapping("/searchByPatient/{patientId}")
+    public ResponseEntity<List<MedicalReportDTO>> searchMedicalReportByPatient(@PathVariable("patientId") Long patientId) {
         Patient patient = patientService.getPatientById(patientId); // Получаем пациента по его ID
         if (patient != null) {
             List<MedicalReport> medicalReports = medicalReportService.findMedicalReportByPatient(patient);
@@ -96,5 +96,4 @@ public class MedicalReportController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 }
