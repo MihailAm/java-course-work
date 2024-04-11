@@ -238,4 +238,52 @@ public class Mapper {
         medicalReport.setReport(medicalReportDTO.getReport());
         return medicalReport;
     }
+
+    public Admission convertToAdmissionEntity(AdmissionDTO admissionDTO) {
+        Admission admission = new Admission();
+        admission.setId(admissionDTO.getId());
+
+        // Установка врача
+        Doctor doctor = new Doctor();
+        doctor.setId(admissionDTO.getDoctor().getId());
+        admission.setDoctor(doctor);
+
+        // Установка пациента
+        Patient patient = new Patient();
+        patient.setId(admissionDTO.getPatient().getId());
+        admission.setPatient(patient);
+
+        admission.setDate(admissionDTO.getDate());
+        admission.setTime(admissionDTO.getTime());
+        admission.setServiceId(admissionDTO.getServiceId());
+
+        return admission;
+    }
+
+    public AdmissionDTO convertToAdmissionDTO(Admission createdAdmission) {
+        AdmissionDTO admissionDTO = new AdmissionDTO();
+        admissionDTO.setId(createdAdmission.getId());
+
+        // Получение идентификатора врача
+        if (createdAdmission.getDoctor() != null) {
+            admissionDTO.setDoctor(createdAdmission.getDoctor());
+        }
+
+        // Получение идентификатора пациента
+        if (createdAdmission.getPatient() != null) {
+            admissionDTO.setPatient(createdAdmission.getPatient());
+        }
+
+        admissionDTO.setDate(createdAdmission.getDate());
+        admissionDTO.setTime(createdAdmission.getTime());
+        admissionDTO.setServiceId(createdAdmission.getServiceId());
+
+        return admissionDTO;
+    }
+
+    public List<AdmissionDTO> convertToAdmissionDTOList(List<Admission> admissions) {
+        return admissions.stream()
+                .map(this::convertToAdmissionDTO)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,64 +1,78 @@
 package ru.mihail.spring.ispi.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.mihail.spring.ispi.Dto.AdmissionDTO;
 import ru.mihail.spring.ispi.models.Admission;
 import ru.mihail.spring.ispi.services.Impl.AdmissionService;
+import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
-import java.util.Date;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admissions")
+@RequestMapping("/api/admissions")
 public class AdmissionController {
 
     @Autowired
     private AdmissionService admissionService;
 
-    // Получение списка всех приемов
-    @GetMapping("/all")
-    public ResponseEntity<List<Admission>> getAllAdmissions() {
-        List<Admission> admissions = admissionService.getAllAdmissions();
-        return ResponseEntity.ok(admissions);
-    }
+    @Autowired
+    private Mapper mapper;
 
-    // Создать прием
+    // Создание новой записи о приеме
     @PostMapping("/create")
-    public ResponseEntity<Admission> createAdmission(@RequestBody Admission admission) {
+    public ResponseEntity<AdmissionDTO> createAdmission(@Valid @RequestBody AdmissionDTO admissionDTO) {
+        Admission admission = mapper.convertToAdmissionEntity(admissionDTO);
         Admission createdAdmission = admissionService.createAdmission(admission);
-        return ResponseEntity.ok(createdAdmission);
+        if (createdAdmission != null) {
+            AdmissionDTO createdAdmissionDTO = mapper.convertToAdmissionDTO(createdAdmission);
+            return new ResponseEntity<>(createdAdmissionDTO, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
-    // Поиск приема по id
-    @GetMapping("/{id}")
-    public ResponseEntity<Admission> getAdmissionById(@PathVariable Long id) {
+    // Получение записи о приеме по ее идентификатору (id)
+    @GetMapping("/search/{id}")
+    public ResponseEntity<AdmissionDTO> getAdmissionById(@PathVariable Long id) {
         Admission admission = admissionService.getAdmissionById(id);
         if (admission != null) {
-            return ResponseEntity.ok(admission);
+            AdmissionDTO admissionDTO = mapper.convertToAdmissionDTO(admission);
+            return new ResponseEntity<>(admissionDTO, HttpStatus.OK);
         } else {
-            return ResponseEntity.notFound().build();
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    // Удалить прием по id
+    // Получение списка всех записей о приеме
+    @GetMapping("/all")
+    public ResponseEntity<List<AdmissionDTO>> getAllAdmissions() {
+        List<Admission> admissions = admissionService.getAllAdmissions();
+        List<AdmissionDTO> admissionDTOs = mapper.convertToAdmissionDTOList(admissions);
+        return new ResponseEntity<>(admissionDTOs, HttpStatus.OK);
+    }
+
+    // Обновление записи о приеме по ее идентификатору (id)
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AdmissionDTO> updateAdmission(@PathVariable Long id, @Valid @RequestBody AdmissionDTO admissionDTO) {
+        admissionDTO.setId(id);
+        Admission admission = mapper.convertToAdmissionEntity(admissionDTO);
+        Admission updatedAdmission = admissionService.updateAdmission(admission);
+        if (updatedAdmission != null) {
+            AdmissionDTO updatedAdmissionDTO = mapper.convertToAdmissionDTO(updatedAdmission);
+            return new ResponseEntity<>(updatedAdmissionDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // Удаление записи о приеме по ее идентификатору (id)
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteAdmissionById(@PathVariable Long id) {
-        boolean deleted = admissionService.deleteAdmissionById(id);
-        if (deleted) {
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    // Поиск приемов по дате
-    @GetMapping("/byDate")
-    public ResponseEntity<List<Admission>> getAdmissionsByDate(
-            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
-        List<Admission> admissions = admissionService.getAdmissionsByDate(date);
-        return ResponseEntity.ok(admissions);
+    public ResponseEntity<Void> deleteAdmission(@PathVariable Long id) {
+        admissionService.deleteAdmissionById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
-
