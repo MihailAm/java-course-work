@@ -21,7 +21,7 @@ public class AdmissionController {
 
     @Autowired
     private Mapper mapper;
-
+    //ПРОВЕРКА!!!!!!!!!!!!!!
     // Создание новой записи о приеме
     @PostMapping("/create")
     public ResponseEntity<AdmissionDTO> createAdmission(@Valid @RequestBody AdmissionDTO admissionDTO) {
