@@ -1,8 +1,6 @@
 package ru.mihail.spring.ispi.Dto;
 
-import ru.mihail.spring.ispi.models.Doctor;
-import ru.mihail.spring.ispi.models.Patient;
-
+import java.time.LocalTime;
 import java.util.Date;
 
 import lombok.Getter;
@@ -15,13 +13,13 @@ public class AdmissionDTO {
 
     private Long id;
 
-    private Doctor doctor;
+    private Long doctorId;
 
-    private Patient patient;
+    private Long patientId;
 
     private Date date;
 
-    private Date time;
+    private LocalTime time;
 
     private Long serviceId;
 }
