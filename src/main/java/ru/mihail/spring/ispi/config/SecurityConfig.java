@@ -33,6 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/**").permitAll())
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/specialty/new-spec").authenticated())
                 .formLogin(AbstractAuthenticationFilterConfigurer::permitAll)
                 .build();
     }
