@@ -262,21 +262,17 @@ public class Mapper {
 
         // Установка врача
         Doctor doctor = new Doctor();
-        doctor.setId(admissionDTO.getDoctorId());
+        doctor.setId(admissionDTO.getDoctor().getId());
         admission.setDoctor(doctor);
 
         // Установка пациента
         Patient patient = new Patient();
-        patient.setId(admissionDTO.getPatientId());
+        patient.setId(admissionDTO.getPatient().getId());
         admission.setPatient(patient);
 
         admission.setDate(admissionDTO.getDate());
         admission.setTime(admissionDTO.getTime());
-
-        //Установка MedicalService
-        MedicalService service = new MedicalService();
-        service.setId(admissionDTO.getServiceId());
-        admission.setService(service);
+        admission.setServiceId(admissionDTO.getServiceId());
 
         return admission;
     }
@@ -285,11 +281,19 @@ public class Mapper {
         AdmissionDTO admissionDTO = new AdmissionDTO();
         admissionDTO.setId(createdAdmission.getId());
 
-        admissionDTO.setDoctorId(createdAdmission.getDoctor().getId());
-        admissionDTO.setPatientId(createdAdmission.getPatient().getId());
+        // Получение идентификатора врача
+        if (createdAdmission.getDoctor() != null) {
+            admissionDTO.setDoctor(createdAdmission.getDoctor());
+        }
+
+        // Получение идентификатора пациента
+        if (createdAdmission.getPatient() != null) {
+            admissionDTO.setPatient(createdAdmission.getPatient());
+        }
+
         admissionDTO.setDate(createdAdmission.getDate());
         admissionDTO.setTime(createdAdmission.getTime());
-        admissionDTO.setServiceId(createdAdmission.getService().getId());
+        admissionDTO.setServiceId(createdAdmission.getServiceId());
 
         return admissionDTO;
     }

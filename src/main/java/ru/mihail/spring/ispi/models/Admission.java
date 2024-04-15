@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -33,9 +32,9 @@ public class Admission {
 
     @Column(name = "time")
     @Temporal(TemporalType.TIME)
-    private LocalTime time;
+    private Date time;
 
     @Column(name = "service_id")
-    private MedicalService service;
+    private Long serviceId;
 
 }
