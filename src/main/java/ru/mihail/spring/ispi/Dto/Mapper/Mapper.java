@@ -40,6 +40,23 @@ public class Mapper {
     }
 
 
+    // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ админа
+    public Users AdminToUsersEntity(AdministratorAuthDTO authDTO) {
+        Users user = new Users();
+        user.setEmail(authDTO.getEmail());
+        user.setPassword(authDTO.getPassword());
+        return user;
+    }
+
+    public Administrator AdminToAdminEntity(AdministratorAuthDTO authDTO, Users user) {
+        Administrator administrator = new Administrator();
+        administrator.setUser(user);
+        administrator.setFirstName(authDTO.getFirstName());
+        administrator.setLastName(authDTO.getLastName());
+
+        return administrator;
+    }
+
 
     // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ ДОКТОРА
     public Users DoctorToUsersEntity(DoctorAuthDTO doctorRequest) {

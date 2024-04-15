@@ -5,17 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import ru.mihail.spring.ispi.Dto.AdministratorAuthDTO;
 import ru.mihail.spring.ispi.Dto.DoctorAuthDTO;
 import ru.mihail.spring.ispi.Dto.LoginDTO;
 import ru.mihail.spring.ispi.Dto.PatientAuthDTO;
+import ru.mihail.spring.ispi.models.Administrator;
 import ru.mihail.spring.ispi.models.Doctor;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.models.Users;
 import ru.mihail.spring.ispi.services.*;
-import ru.mihail.spring.ispi.services.Impl.DoctorService;
-import ru.mihail.spring.ispi.services.Impl.PatientService;
-import ru.mihail.spring.ispi.services.Impl.SpecialtyService;
-import ru.mihail.spring.ispi.services.Impl.UsersService;
+import ru.mihail.spring.ispi.services.Impl.*;
 
 @RestController
 @RequestMapping("api/auth")
@@ -23,6 +22,10 @@ public class UsersController {
 
     @Autowired
     private DoctorService doctorService;
+
+    @Autowired
+    private AdministratorService administratorService;
+
     @Autowired
     private PatientService patientService;
     @Autowired
@@ -57,6 +60,17 @@ public class UsersController {
         patientService.save(patient);
 
         return new ResponseEntity<>("Patient registered successfully", HttpStatus.CREATED);
+    }
+
+    @Transactional
+    @PostMapping("/register-admin")
+    public ResponseEntity<String> registerAdmin(@RequestBody @Valid AdministratorAuthDTO adminRequest) {
+        Users user = Mapper.AdminToUsersEntity(adminRequest);
+        authService.saveAdmin(user);
+        Administrator admin = Mapper.AdminToAdminEntity(adminRequest, user);
+        administratorService.save(admin);
+
+        return new ResponseEntity<>("(Admin registered successfully", HttpStatus.CREATED);
     }
 
 

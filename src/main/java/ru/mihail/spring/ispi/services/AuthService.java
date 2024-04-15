@@ -47,6 +47,12 @@ public class AuthService {
         userRepository.save(users);
     }
 
+    public void saveAdmin(Users users) {
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+        users.setRole("ROLE_ADMIN");
+        userRepository.save(users);
+    }
+
 
     public String authenticateUser(LoginDTO userDto) {
         try {
