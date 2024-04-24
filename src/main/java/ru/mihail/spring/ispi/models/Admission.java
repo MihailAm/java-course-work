@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -32,9 +33,10 @@ public class Admission {
 
     @Column(name = "time")
     @Temporal(TemporalType.TIME)
-    private Date time;
+    private LocalTime time;
 
-    @Column(name = "service_id")
-    private Long serviceId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id", nullable = false)
+    private MedicalService service;
 
 }
