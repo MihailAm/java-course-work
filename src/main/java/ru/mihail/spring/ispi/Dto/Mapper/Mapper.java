@@ -77,6 +77,7 @@ public class Mapper {
         doctor.setOffice(doctorRequest.getOffice());
         return doctor;
     }
+
     // МАППЕР ДЛЯ АВТОРИЗАЦИИ И РЕГИСТРАЦИИ ПАЦИЕНТА
     public Users PatientToUsersEntity(PatientAuthDTO patientRequest) {
         Users user = new Users();
@@ -306,5 +307,18 @@ public class Mapper {
         return admissions.stream()
                 .map(this::convertToAdmissionDTO)
                 .collect(Collectors.toList());
+    }
+
+    public ScheduleDoctorDTO convert(Admission admission) {
+        ScheduleDoctorDTO scheduleDoctorDTO = new ScheduleDoctorDTO();
+        scheduleDoctorDTO.setId(admission.getId());
+        scheduleDoctorDTO.setDoctorFirstName(admission.getDoctor().getFirstName());
+        scheduleDoctorDTO.setDoctorLastName(admission.getDoctor().getLastName());
+        scheduleDoctorDTO.setPatientFirstName(admission.getPatient().getFirstName());
+        scheduleDoctorDTO.setPatientLastName(admission.getPatient().getLastName());
+        scheduleDoctorDTO.setDate(admission.getDate().toString());
+        scheduleDoctorDTO.setTime(admission.getTime());
+
+        return scheduleDoctorDTO;
     }
 }

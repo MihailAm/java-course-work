@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 import ru.mihail.spring.ispi.Dto.ScheduleDTO;
+import ru.mihail.spring.ispi.Dto.ScheduleDoctorDTO;
 import ru.mihail.spring.ispi.models.Schedule;
 import jakarta.validation.Valid;
 import ru.mihail.spring.ispi.services.Impl.AdmissionService;
@@ -14,6 +15,7 @@ import ru.mihail.spring.ispi.services.Impl.ScheduleService;
 import ru.mihail.spring.ispi.models.Admission;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +34,13 @@ public class ScheduleController {
 
     // метод который достает все приемы по доктору и дате, формирует расписание
     @GetMapping("/generate/doctor/{doctorId}")
-    public List<Admission> getAdmissionsByDoctorIdAndDate(@PathVariable Long doctorId, @RequestParam Date date) {
-        return admissionService.getAdmissionsByDoctorIdAndDate(doctorId, date);
+    public List<ScheduleDoctorDTO> getAdmissionsByDoctorIdAndDate(@PathVariable Long doctorId, @RequestParam("date") @DateTimeFormat(pattern="yyyy-MM-dd") Date date) {
+        List<Admission> admissions = admissionService.getAdmissionsByDoctorIdAndDate(doctorId, date);
+        List<ScheduleDoctorDTO> scheduleDoctorDTOs = new ArrayList<>();
+        for (Admission admission : admissions) {
+            scheduleDoctorDTOs.add(Mapper.convert(admission));
+        }
+        return scheduleDoctorDTOs;
     }
 
     // создает расписание врачей для пациентов
@@ -52,7 +59,7 @@ public class ScheduleController {
     }
 
     // берет расписание по врачу и дате, так можно посмотреть как работает врач в определенный день
-    @GetMapping("/doctor/{doctorId}")
+    @GetMapping("/doctorForPatient/{doctorId}")
     public ScheduleDTO getSchedulesByDoctorIdAndDate(@PathVariable Long doctorId, @RequestParam LocalDate date) {
         Schedule schedule = scheduleService.getScheduleByDoctorIdAndDate(doctorId, date);
         return Mapper.convertToScheduleDTO(schedule);
