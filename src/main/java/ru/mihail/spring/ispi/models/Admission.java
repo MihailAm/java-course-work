@@ -36,7 +36,7 @@ public class Admission {
     private LocalTime time;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_id", nullable = false)
+    @JoinColumn(name = "service_id")
     private MedicalService service;
 
 }
