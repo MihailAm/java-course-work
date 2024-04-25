@@ -13,4 +13,5 @@ public class DoctorAuthDTO {
     private Long specialtyId;
     private String position;
     private String office;
+    private Long work_experience;
 }

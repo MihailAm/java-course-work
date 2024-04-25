@@ -75,6 +75,7 @@ public class Mapper {
         Specialty specialty = specialtyService.findById(doctorRequest.getSpecialtyId());
         doctor.setSpecialty(specialty);
         doctor.setOffice(doctorRequest.getOffice());
+        doctor.setWork_experience(doctorRequest.getWork_experience());
         return doctor;
     }
 
@@ -135,6 +136,7 @@ public class Mapper {
         doctorDTO.setSpecialtyId(doctor.getSpecialty().getId());
         doctorDTO.setPosition(doctor.getPosition());
         doctorDTO.setOffice(doctor.getOffice());
+        doctorDTO.setWork_experience(doctor.getWork_experience());
         return doctorDTO;
     }
 
@@ -154,6 +156,7 @@ public class Mapper {
 
         doctor.setPosition(doctorDTO.getPosition());
         doctor.setOffice(doctorDTO.getOffice());
+        doctor.setWork_experience(doctorDTO.getWork_experience());
         return doctor;
     }
 

@@ -46,5 +46,8 @@ public class Doctor {
     @Column(name = "office")
     private String office;
 
+    @Column(name = "work_experience")
+    private Long work_experience;
+
 
 }
