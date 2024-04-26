@@ -3,6 +3,7 @@ package ru.mihail.spring.ispi.services.Impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Admission;
+import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.services.Interfaces.AdmissionServiceInterface;
 
@@ -36,6 +37,11 @@ public class AdmissionService implements AdmissionServiceInterface {
             return admissionRepository.save(admission);
         }
         return null;
+    }
+
+    @Override
+    public List<Admission> findAdmissionByPatient(Patient patient) {
+        return admissionRepository.findByPatient(patient);
     }
 
     // ЭТО НЕ УДАЛЯТЬ !!!!!!!!

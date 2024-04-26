@@ -5,11 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.Dto.AdmissionDTO;
+import ru.mihail.spring.ispi.Dto.MedicalReportDTO;
 import ru.mihail.spring.ispi.models.Admission;
+import ru.mihail.spring.ispi.models.MedicalReport;
+import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.services.Impl.AdmissionService;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
 import jakarta.validation.Valid;
+import ru.mihail.spring.ispi.services.Impl.PatientService;
+
 import java.util.List;
 
 @RestController
@@ -18,6 +23,9 @@ public class AdmissionController {
 
     @Autowired
     private AdmissionService admissionService;
+
+    @Autowired
+    private PatientService patientService;
 
     @Autowired
     private Mapper mapper;
@@ -74,5 +82,18 @@ public class AdmissionController {
     public ResponseEntity<Void> deleteAdmission(@PathVariable Long id) {
         admissionService.deleteAdmissionById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // Поиск приемов по пациенту
+    @GetMapping("/searchByPatient/{patientId}")
+    public ResponseEntity<List<AdmissionDTO>> searchAdmissionByPatient(@PathVariable("patientId") Long patientId) {
+        Patient patient = patientService.getPatientById(patientId); // Получаем пациента по его ID
+        if (patient != null) {
+            List<Admission> admissions = admissionService.findAdmissionByPatient(patient);
+            List<AdmissionDTO> admissionDTOS = mapper.convertToAdmissionDTOList(admissions);
+            return new ResponseEntity<>(admissionDTOS, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
