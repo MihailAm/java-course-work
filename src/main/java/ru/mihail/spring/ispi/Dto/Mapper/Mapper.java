@@ -237,9 +237,9 @@ public class Mapper {
     public MedicalReportDTO convertToMedicalReportDTO(MedicalReport medicalReport) {
         MedicalReportDTO medicalReportDTO = new MedicalReportDTO();
         medicalReportDTO.setId(medicalReport.getId());
-        medicalReportDTO.setPatient(medicalReport.getPatient());
-        medicalReportDTO.setDoctor(medicalReport.getDoctor());
-        medicalReportDTO.setAdmission(medicalReport.getAdmission());
+        medicalReportDTO.setPatientId(medicalReport.getPatient().getId());
+        medicalReportDTO.setDoctorId(medicalReport.getDoctor().getId());
+        medicalReportDTO.setAdmissionId(medicalReport.getAdmission().getId());
         medicalReportDTO.setReport(medicalReport.getReport());
         return medicalReportDTO;
     }
@@ -252,11 +252,22 @@ public class Mapper {
 
     public MedicalReport convertToMedicalReportEntity(MedicalReportDTO medicalReportDTO) {
         MedicalReport medicalReport = new MedicalReport();
+
         medicalReport.setId(medicalReportDTO.getId());
-        medicalReport.setPatient(medicalReportDTO.getPatient());
-        medicalReport.setDoctor(medicalReportDTO.getDoctor());
-        medicalReport.setAdmission(medicalReportDTO.getAdmission());
         medicalReport.setReport(medicalReportDTO.getReport());
+        // Установка врача
+        Doctor doctor = new Doctor();
+        doctor.setId(medicalReportDTO.getDoctorId());
+        medicalReport.setDoctor(doctor);
+        // Установка пациента
+        Patient patient = new Patient();
+        patient.setId(medicalReportDTO.getPatientId());
+        medicalReport.setPatient(patient);
+        // Установка записи на прием
+        Admission admission = new Admission();
+        admission.setId(medicalReportDTO.getPatientId());
+        medicalReport.setAdmission(admission);
+
         return medicalReport;
     }
 
