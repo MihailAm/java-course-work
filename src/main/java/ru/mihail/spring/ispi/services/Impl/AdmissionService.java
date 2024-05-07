@@ -7,6 +7,7 @@ import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.services.Interfaces.AdmissionServiceInterface;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -48,4 +49,9 @@ public class AdmissionService implements AdmissionServiceInterface {
     public List<Admission> getAdmissionsByDoctorIdAndDate(Long doctorId, Date date) {
         return admissionRepository.findByDoctorIdAndDate(doctorId, date);
     }
+
+    public List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time){
+        return admissionRepository.findByDoctorIdDateTime(doctorId, date, time);
+    }
+
 }

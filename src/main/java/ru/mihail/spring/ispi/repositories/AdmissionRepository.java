@@ -6,6 +6,7 @@ import ru.mihail.spring.ispi.models.Admission;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.models.Schedule;
 
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     // ЭТО НЕ УДАЛЯТЬ
     List<Admission> findByDoctorIdAndDate(Long doctorId, Date date);
+
+    List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time);
 }
