@@ -51,7 +51,7 @@ public class AdmissionService implements AdmissionServiceInterface {
     }
 
     public List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time){
-        return admissionRepository.findByDoctorIdDateTime(doctorId, date, time);
+        return admissionRepository.findByDoctorIdAndDateAndTime(doctorId, date, time);
     }
 
 }

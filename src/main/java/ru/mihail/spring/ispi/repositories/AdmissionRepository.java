@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.mihail.spring.ispi.models.Admission;
 import ru.mihail.spring.ispi.models.Patient;
-import ru.mihail.spring.ispi.models.Schedule;
 
 import java.time.LocalTime;
 import java.util.Date;
@@ -18,5 +17,5 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
     // ЭТО НЕ УДАЛЯТЬ
     List<Admission> findByDoctorIdAndDate(Long doctorId, Date date);
 
-    List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time);
+    List<Admission> findByDoctorIdAndDateAndTime(Long doctorId, Date date, LocalTime time);
 }

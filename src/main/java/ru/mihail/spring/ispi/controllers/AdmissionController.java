@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.Dto.AdmissionDTO;
-import ru.mihail.spring.ispi.Dto.MedicalReportDTO;
 import ru.mihail.spring.ispi.models.Admission;
-import ru.mihail.spring.ispi.models.MedicalReport;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.services.Impl.AdmissionService;
@@ -25,7 +23,7 @@ import java.util.List;
 public class AdmissionController {
 
     @Autowired
-    AdmissionRepository admissionRepository;
+    private AdmissionRepository admissionRepository;
 
     @Autowired
     private AdmissionService admissionService;
@@ -109,6 +107,6 @@ public class AdmissionController {
             @RequestParam Date date,
             @RequestParam LocalTime time
     ) {
-        return admissionRepository.findByDoctorIdDateTime(doctorId, date, time);
+        return admissionRepository.findByDoctorIdAndDateAndTime(doctorId, date, time);
     }
 }
