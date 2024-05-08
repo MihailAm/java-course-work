@@ -5,21 +5,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.mihail.spring.ispi.Dto.AdmissionDTO;
-import ru.mihail.spring.ispi.Dto.MedicalReportDTO;
 import ru.mihail.spring.ispi.models.Admission;
-import ru.mihail.spring.ispi.models.MedicalReport;
 import ru.mihail.spring.ispi.models.Patient;
+import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.services.Impl.AdmissionService;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 
 import jakarta.validation.Valid;
 import ru.mihail.spring.ispi.services.Impl.PatientService;
 
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admissions")
 public class AdmissionController {
+
+    @Autowired
+    private AdmissionRepository admissionRepository;
 
     @Autowired
     private AdmissionService admissionService;
@@ -95,5 +99,14 @@ public class AdmissionController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/searchByDoctorDateTime/{doctorId}")
+    public List<Admission> getAdmissionsByDoctorIdDateTime(
+            @PathVariable Long doctorId,
+            @RequestParam Date date,
+            @RequestParam LocalTime time
+    ) {
+        return admissionRepository.findByDoctorIdAndDateAndTime(doctorId, date, time);
     }
 }
