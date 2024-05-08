@@ -18,4 +18,5 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
     List<Admission> findByDoctorIdAndDate(Long doctorId, Date date);
 
     List<Admission> findByDoctorIdAndDateAndTime(Long doctorId, Date date, LocalTime time);
+    List<Admission> findByDoctorId(Long doctorId);
 }

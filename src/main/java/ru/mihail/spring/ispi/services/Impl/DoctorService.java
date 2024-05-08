@@ -5,7 +5,9 @@ import ch.qos.logback.core.testUtil.MockInitialContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mihail.spring.ispi.models.Admission;
 import ru.mihail.spring.ispi.models.Doctor;
+import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.repositories.DoctorRepository;
 import ru.mihail.spring.ispi.repositories.UserRepository;
 import ru.mihail.spring.ispi.services.Interfaces.DoctorServiceInterface;
@@ -21,6 +23,9 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AdmissionRepository admissionRepository;
 
     @Transactional
     public void save(Doctor doctor) {
@@ -47,9 +52,15 @@ public class DoctorService implements DoctorServiceInterface {
 
     @Override
     public void deleteDoctorById(Long id) {
-        Doctor doctor =  doctorRepository.findById(id).orElse(null);
+        List<Admission> doctorAdmissions = admissionRepository.findByDoctorId(id);
+        admissionRepository.deleteAll(doctorAdmissions);
+
         doctorRepository.deleteById(id);
-        userRepository.deleteById(doctor.getUser().getId());
+
+        Doctor doctor = doctorRepository.findById(id).orElse(null);
+        if (doctor != null) {
+            userRepository.deleteById(doctor.getUser().getId());
+        }
     }
 
     @Override
