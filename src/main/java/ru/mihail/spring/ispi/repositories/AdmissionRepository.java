@@ -16,4 +16,6 @@ public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     // ЭТО НЕ УДАЛЯТЬ
     List<Admission> findByDoctorIdAndDate(Long doctorId, Date date);
+
+    List<Admission> findByDoctorId(Long doctorId);
 }
