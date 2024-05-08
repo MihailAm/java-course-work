@@ -8,7 +8,7 @@ import ru.mihail.spring.ispi.models.Users;
 @Setter
 public class PatientDTO {
     private Long id;
-    private Users user;
+    private Long userId;
     private String firstName;
     private String lastName;
     private Integer age;

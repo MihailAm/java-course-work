@@ -204,6 +204,10 @@ public class Mapper {
         patient.setAge(patientDTO.getAge());
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setSnils(patientDTO.getSnils());
+        // Установка user
+        Users user = new Users();
+        user.setId(patientDTO.getUserId());
+        patient.setUser(user);
 
         return patient;
     }
@@ -211,6 +215,7 @@ public class Mapper {
     public PatientDTO convertToPatientDTO(Patient patient) {
         PatientDTO patientDTO = new PatientDTO();
         patientDTO.setId(patient.getId());
+        patientDTO.setUserId(patient.getUser().getId());
         patientDTO.setFirstName(patient.getFirstName());
         patientDTO.setLastName(patient.getLastName());
         patientDTO.setAge(patient.getAge());
