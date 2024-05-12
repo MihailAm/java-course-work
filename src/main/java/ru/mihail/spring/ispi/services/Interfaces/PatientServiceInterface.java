@@ -16,7 +16,7 @@ public interface PatientServiceInterface {
 
     Patient updatePatient(Long id, Patient updatedPatient);
 
-    boolean deletePatient(Long id);
+    void deletePatient(Long id);
 
     //String viewMedicalRecord(Long id);
 }

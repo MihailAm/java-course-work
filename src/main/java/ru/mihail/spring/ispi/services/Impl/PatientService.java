@@ -3,9 +3,13 @@ package ru.mihail.spring.ispi.services.Impl;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mihail.spring.ispi.models.Admission;
+import ru.mihail.spring.ispi.models.Doctor;
 import ru.mihail.spring.ispi.models.Patient;
+import ru.mihail.spring.ispi.repositories.AdmissionRepository;
 import ru.mihail.spring.ispi.repositories.PatientRepository;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
+import ru.mihail.spring.ispi.repositories.UserRepository;
 import ru.mihail.spring.ispi.services.Interfaces.PatientServiceInterface;
 
 import java.util.List;
@@ -17,6 +21,11 @@ public class PatientService implements PatientServiceInterface {
 
     @Autowired
     private PatientRepository patientRepository;
+
+    @Autowired
+    private AdmissionRepository admissionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Mapper mapper;
@@ -54,13 +63,17 @@ public class PatientService implements PatientServiceInterface {
         }
     }
 
-    public boolean deletePatient(Long id) {
-        Optional<Patient> optionalPatient = patientRepository.findById(id);
-        if (optionalPatient.isPresent()) {
-            patientRepository.deleteById(id);
-            return true;
-        } else {
-            return false; // Запись не найдена
+    public void deletePatient(Long id) {
+
+
+        List<Admission> patientAdmissions = admissionRepository.findByPatientId(id);
+        admissionRepository.deleteAll(patientAdmissions);
+
+        patientRepository.deleteById(id);
+
+        Patient patient = patientRepository.findById(id).orElse(null);
+        if (patient != null) {
+            userRepository.deleteById(patient.getUser().getId());
         }
     }
 
