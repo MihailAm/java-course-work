@@ -160,13 +160,12 @@ public class Mapper {
         return doctor;
     }
 
-    // МАППЕР ДЛЯ РАПСАИСАНИЯ
+    // МАППЕР ДЛЯ РАСПИСАНИЯ
 
     public Schedule convertToScheduleEntity(ScheduleDTO scheduleDTO) {
         Schedule schedule = new Schedule();
         schedule.setId(scheduleDTO.getId());
 
-        // Преобразование doctorId в объект Doctor, предполагается, что у вас есть сервис для получения доктора по его ID
         Doctor doctor = doctorService.getDoctorById(scheduleDTO.getDoctorId());
         schedule.setDoctor(doctor);
 
@@ -260,17 +259,17 @@ public class Mapper {
 
         medicalReport.setId(medicalReportDTO.getId());
         medicalReport.setReport(medicalReportDTO.getReport());
-        // Установка врача
+
         Doctor doctor = new Doctor();
         doctor.setId(medicalReportDTO.getDoctorId());
         medicalReport.setDoctor(doctor);
-        // Установка пациента
+
         Patient patient = new Patient();
         patient.setId(medicalReportDTO.getPatientId());
         medicalReport.setPatient(patient);
-        // Установка записи на прием
+
         Admission admission = new Admission();
-        admission.setId(medicalReportDTO.getPatientId());
+        admission.setId(medicalReportDTO.getAdmissionId());
         medicalReport.setAdmission(admission);
 
         return medicalReport;
@@ -280,12 +279,10 @@ public class Mapper {
         Admission admission = new Admission();
         admission.setId(admissionDTO.getId());
 
-        // Установка врача
         Doctor doctor = new Doctor();
         doctor.setId(admissionDTO.getDoctorId());
         admission.setDoctor(doctor);
 
-        // Установка пациента
         Patient patient = new Patient();
         patient.setId(admissionDTO.getPatientId());
         admission.setPatient(patient);
@@ -293,7 +290,6 @@ public class Mapper {
         admission.setDate(admissionDTO.getDate());
         admission.setTime(admissionDTO.getTime());
 
-        // Установка услуги
         MedicalService service = new MedicalService();
         service.setId(admissionDTO.getServiceId());
         admission.setService(service);
@@ -305,12 +301,10 @@ public class Mapper {
         AdmissionDTO admissionDTO = new AdmissionDTO();
         admissionDTO.setId(createdAdmission.getId());
 
-        // Получение идентификатора врача
         if (createdAdmission.getDoctor() != null) {
             admissionDTO.setDoctorId(createdAdmission.getDoctor().getId());
         }
 
-        // Получение идентификатора пациента
         if (createdAdmission.getPatient() != null) {
             admissionDTO.setPatientId(createdAdmission.getPatient().getId());
         }

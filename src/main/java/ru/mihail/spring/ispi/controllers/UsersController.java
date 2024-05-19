@@ -70,7 +70,7 @@ public class UsersController {
         Administrator admin = Mapper.AdminToAdminEntity(adminRequest, user);
         administratorService.save(admin);
 
-        return new ResponseEntity<>("(Admin registered successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Admin registered successfully", HttpStatus.CREATED);
     }
 
 

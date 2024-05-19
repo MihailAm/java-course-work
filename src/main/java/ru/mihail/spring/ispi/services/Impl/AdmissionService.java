@@ -45,13 +45,16 @@ public class AdmissionService implements AdmissionServiceInterface {
         return admissionRepository.findByPatient(patient);
     }
 
-    // ЭТО НЕ УДАЛЯТЬ !!!!!!!!
     public List<Admission> getAdmissionsByDoctorIdAndDate(Long doctorId, Date date) {
         return admissionRepository.findByDoctorIdAndDate(doctorId, date);
     }
 
     public List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time){
         return admissionRepository.findByDoctorIdAndDateAndTime(doctorId, date, time);
+    }
+
+    public boolean isTimeSlotTaken(Date date, LocalTime time) {
+        return admissionRepository.existsByDateAndTime(date, time);
     }
 
 }

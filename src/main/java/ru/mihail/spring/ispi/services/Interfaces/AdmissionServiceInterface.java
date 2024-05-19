@@ -24,4 +24,6 @@ public interface AdmissionServiceInterface {
     List<Admission> getAdmissionsByDoctorIdAndDate(Long doctorId, Date date);
 
     List<Admission> findByDoctorIdDateTime(Long doctorId, Date date, LocalTime time);
+
+    boolean isTimeSlotTaken(Date date, LocalTime time);
 }

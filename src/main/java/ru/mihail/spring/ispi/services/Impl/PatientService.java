@@ -59,7 +59,7 @@ public class PatientService implements PatientServiceInterface {
             existingPatient.setSnils(updatedPatient.getSnils());
             return patientRepository.save(existingPatient);
         } else {
-            return null; // Запись не найдена
+            return null;
         }
     }
 
@@ -77,11 +77,4 @@ public class PatientService implements PatientServiceInterface {
         }
     }
 
-    /*
-    public String viewMedicalRecord(Long id) {
-        // Логика для просмотра медкарты
-        // Возвращает строку с медицинской информацией (здесь это просто пример)
-        return "Medical record for patient with ID " + id;  //tmp
-    }
-     */
 }

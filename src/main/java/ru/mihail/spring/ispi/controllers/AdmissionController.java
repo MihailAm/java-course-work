@@ -33,10 +33,17 @@ public class AdmissionController {
 
     @Autowired
     private Mapper mapper;
-    //ПРОВЕРКА!!!!!!!!!!!!!!
+
     // Создание новой записи о приеме
     @PostMapping("/create")
     public ResponseEntity<AdmissionDTO> createAdmission(@Valid @RequestBody AdmissionDTO admissionDTO) {
+        Date date = admissionDTO.getDate();
+        LocalTime time = admissionDTO.getTime();
+
+        if (admissionService.isTimeSlotTaken(date, time)) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         Admission admission = mapper.convertToAdmissionEntity(admissionDTO);
         Admission createdAdmission = admissionService.createAdmission(admission);
         if (createdAdmission != null) {

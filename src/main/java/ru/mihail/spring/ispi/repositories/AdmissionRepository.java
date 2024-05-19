@@ -13,11 +13,9 @@ import java.util.List;
 public interface AdmissionRepository extends JpaRepository<Admission, Long> {
 
     List<Admission> findByPatient(Patient id);
-
-    // ЭТО НЕ УДАЛЯТЬ
     List<Admission> findByDoctorIdAndDate(Long doctorId, Date date);
-
     List<Admission> findByDoctorIdAndDateAndTime(Long doctorId, Date date, LocalTime time);
     List<Admission> findByDoctorId(Long doctorId);
     List<Admission> findByPatientId(Long patientId);
+    boolean existsByDateAndTime(Date date, LocalTime time);
 }
