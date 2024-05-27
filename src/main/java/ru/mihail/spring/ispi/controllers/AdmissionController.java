@@ -18,6 +18,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api/admissions")
 public class AdmissionController {

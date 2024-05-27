@@ -15,6 +15,7 @@ import ru.mihail.spring.ispi.services.Impl.PatientService;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api/medical-reports")
 public class MedicalReportController {

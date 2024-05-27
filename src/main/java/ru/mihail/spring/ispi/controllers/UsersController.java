@@ -16,6 +16,7 @@ import ru.mihail.spring.ispi.models.Users;
 import ru.mihail.spring.ispi.services.*;
 import ru.mihail.spring.ispi.services.Impl.*;
 
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("api/auth")
 public class UsersController {

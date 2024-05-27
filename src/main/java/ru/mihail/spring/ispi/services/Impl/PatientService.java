@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.mihail.spring.ispi.models.Admission;
 import ru.mihail.spring.ispi.models.Doctor;
+import ru.mihail.spring.ispi.models.MedicalReport;
 import ru.mihail.spring.ispi.models.Patient;
 import ru.mihail.spring.ispi.repositories.AdmissionRepository;
+import ru.mihail.spring.ispi.repositories.MedicalReportRepository;
 import ru.mihail.spring.ispi.repositories.PatientRepository;
 import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 import ru.mihail.spring.ispi.repositories.UserRepository;
@@ -21,7 +23,8 @@ public class PatientService implements PatientServiceInterface {
 
     @Autowired
     private PatientRepository patientRepository;
-
+    @Autowired
+    private MedicalReportRepository medicalReportRepository;
     @Autowired
     private AdmissionRepository admissionRepository;
     @Autowired
@@ -64,10 +67,12 @@ public class PatientService implements PatientServiceInterface {
     }
 
     public void deletePatient(Long id) {
-
+        List<MedicalReport> medical_report = medicalReportRepository.findByPatientId(id);
+        medicalReportRepository.deleteAll(medical_report);
 
         List<Admission> patientAdmissions = admissionRepository.findByPatientId(id);
         admissionRepository.deleteAll(patientAdmissions);
+
 
         patientRepository.deleteById(id);
 

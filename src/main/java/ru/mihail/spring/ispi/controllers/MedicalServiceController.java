@@ -12,6 +12,7 @@ import ru.mihail.spring.ispi.Dto.Mapper.Mapper;
 import jakarta.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 @RestController
 @RequestMapping("/api/medical-service")
 public class MedicalServiceController {

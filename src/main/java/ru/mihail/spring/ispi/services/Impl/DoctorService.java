@@ -53,13 +53,22 @@ public class DoctorService implements DoctorServiceInterface {
     @Override
     public void deleteDoctorById(Long id) {
         List<Admission> doctorAdmissions = admissionRepository.findByDoctorId(id);
-        admissionRepository.deleteAll(doctorAdmissions);
 
-        doctorRepository.deleteById(id);
+        for (Admission admission : doctorAdmissions) {
+            admission.setDoctor(null);
+        }
+
+        admissionRepository.saveAll(doctorAdmissions);
 
         Doctor doctor = doctorRepository.findById(id).orElse(null);
         if (doctor != null) {
-            userRepository.deleteById(doctor.getUser().getId());
+            Long userId = doctor.getUser().getId();
+
+            doctorRepository.deleteById(id);
+
+            userRepository.deleteById(userId);
+        } else {
+            doctorRepository.deleteById(id);
         }
     }
 
